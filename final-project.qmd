@@ -20,6 +20,35 @@ This section includes a brief description of your modeling process. Explain the 
 Grading criteria
 The analysis steps are appropriate for the data and research question. The group used a thorough and careful approach to select the final model; the approach is clearly described in the report. The model selection process was reasonable, and addressed any violations in model conditions were discussed and/or fixed. The model conditions and diagnostics are thoroughly and accurately assessed for their model. If violations of model conditions are still present, there was a reasonable attempt to address the violations based on the course content.
 
+```{r loading packages and data, messages = F, warning = F}
+library(tidyverse)
+library(tidymodels)
+library(glmnet)
+library(MASS)
+library(leaps)
+heart = read_csv("heart.csv")
+```
+
+Using LASSO for variable selection
+```{r var-select, message = F, warning = F}
+y <- heart$target
+x <- model.matrix(target ~ ., data = heart)
+m_lasso_cv <- cv.glmnet(x, y, alpha = 1)
+best_lambda <- m_lasso_cv$lambda.min
+m_best <- glmnet(x, y, alpha = 1, lambda = best_lambda)
+m_best$beta
+summary(m_best)
+```
+Using stepwise method for variable selection
+```{r stepwise}
+m_none <- lm(target ~ 1, data = heart)
+m_all <- lm(target ~ ., 
+            data = heart)
+stepAIC(m_none, 
+        scope = list(lower = m_none, upper = m_all),
+        data = heart, direction = "both")
+```
+
 ## Results
 This is where you will output the final model with any relevant model fit statistics. Describe the key results from the model. The goal is not to interpret every single variable in the model but rather to show that you are proficient in using the model output to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.
 
