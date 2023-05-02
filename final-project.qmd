@@ -3,7 +3,7 @@ title: "Final Project"
 authors: Claire Wang & Xeno Hu
 ---
 ### Introduction
-Cardiovascular diseases (CVDs) are the leading cause of death in the United States, with one person dying of the disease every 34 seconds (Centers for Disease Control and Prevention, 2022). Previous research has highlighted male gender, old age, obesity, abnormal cholesterol and fasting blood glucose as important predictors for CVDs, among many others.
+Cardiovascular diseases (CVDs) are the leading cause of death in the United States, with one person dying of the disease every 34 seconds (Centers for Disease Control and Prevention, 2022). Previous research has highlighted male gender, old age, obesity, abnormal cholesterol and fasting blood glucose as important predictors for CVDs, among many others (Damen et. al., 2016).
 
 As CVD incidence continues to soar, the need for an effective predictive model cannot be overstated. Such a model could enable doctors to take preventive measures, treat patients early, or encourage individuals at high risk to adopt lifestyle changes. In this report, we aim to construct a predictive model based on the "Heart Diseases" dataset, by assessing the 13 possible predictors (including chest pain type, blood pressure, cholesterol levels, fasting blood sugar, resting ECG measurements, etc.). By doing so, we seek to enhance the scientific community's understanding of CVDs and their associated risk factors, ultimately contributing to better prevention and management of this critical disease for both individuals and populations.
 
@@ -17,6 +17,74 @@ Centers for Disease Control and Prevention, National Center for Health Statistic
 
 Damen, J. A., Hooft, L., Schuit, E., Debray, T. P., Collins, G. S., Tzoulaki, I., Lassale, C. M., Siontis, G. C., Chiocchia, V., Roberts, C., Schlüssel, M. M., Gerry, S., Black, J. A., Heus, P., van der Schouw, Y. T., Peelen, L. M., & Moons, K. G. (2016). Prediction models for cardiovascular disease risk in the general population: systematic review. BMJ (Clinical research ed.), 353, i2416. https://doi.org/10.1136/bmj.i2416
 
+## EDA
+```{r summarizing-the-means}
+heart %>%
+  summarize(mean_age = mean(age),
+            mean_chol = mean(chol),
+            mean_trestbps = mean(trestbps),
+            mean_thalach = mean(thalach)) %>%
+  as_tibble()
+```
+
+```{r cvd-distribution}
+ggplot(data = heart, aes(x = target)) +
+  geom_histogram(binwidth = 0.66) 
+  labs(title = "Distribution of CVD",
+       subtitle = "Among Patients",
+       x = "Presence of CVD",
+       y = "Count")
+```
+The distribution of CVD in our data appears to be relatively evenly distributed between patients with and without the disease. This means that there are sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.
+
+Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, the type of chest pain (cp) is a significant factor in distinguishing between types of CVD. Therefore, we will include cp as a categorical predictor variable and conduct more exploratory data analysis on all these variables.
+
+```{r age}
+heart_summary <- heart %>%
+  group_by(target) %>%
+  summarise(mean = mean(age),
+            median = median(age),
+            sd = sd(age),
+            IQR = IQR(age))
+heart_summary
+```
+
+```{r box plot for age }
+ggplot(heart, aes(x = age, y = target, group = target)) + 
+  geom_boxplot() +
+  labs(title = "Age vs. Presence of CVD",
+       x = "Age",
+       y = "Presence of CVD") +
+  theme_bw()
+```
+
+```{r box plot for cholesterol}
+ggplot(heart, aes(x = chol, y = target, group = target)) +  
+  geom_boxplot() +
+  labs(title = "Cholesterol Distribution vs. Presence of CVD",
+       x = "Serum cholestoral in mg/dl",
+       y = "Presence of CVD") +
+  theme_bw()
+```
+
+```{r box plot for resting blood pressure}
+ggplot(heart, aes(x = trestbps, y = target, group = target)) + 
+  geom_boxplot() +
+  labs(title = "Resting Blood Pressure vs. Presence of CVD",
+       x = "Resting blood pressure (in mm Hg on admission to the hospital)",
+       y = "Presence of CVD") +
+  theme_bw()
+```
+
+```{r box plot for max hr}
+ggplot(heart, aes(x = thalach, y = target, group = target)) +  
+  geom_boxplot() +
+  labs(title = "Maximum Heart Rate vs. Presence of CVD",
+       x = "Maximum heart rate achieved",
+       y = "Presence of CVD") +
+  theme_bw()
+```
+
 ## Methodology
 This section includes a brief description of your modeling process. Explain the reasoning for the type of model you’re fitting, predictor variables considered for the model including any interactions. Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
 
@@ -29,6 +97,8 @@ library(tidymodels)
 library(glmnet)
 library(MASS)
 library(leaps)
+library(dplyr)
+library(ggplot2)
 heart = read_csv("heart.csv")
 ```
 
