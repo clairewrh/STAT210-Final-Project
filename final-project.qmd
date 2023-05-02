@@ -42,6 +42,7 @@ m_best <- glmnet(x, y, alpha = 1, lambda = best_lambda)
 m_best$beta
 summary(m_best)
 ```
+
 Using stepwise method for variable selection
 ```{r stepwise}
 m_none <- lm(target ~ 1, data = heart)
@@ -50,6 +51,14 @@ m_all <- lm(target ~ .,
 stepAIC(m_none, 
         scope = list(lower = m_none, upper = m_all),
         data = heart, direction = "both")
+```
+
+Using all subset selection (based on LASSO result)
+```{r all subset}
+m_all <- regsubsets(target ~ .-fbs -age -sex,
+                  data = heart, 
+                  nbest = 1, nvmax = 11)
+summary(m_all)
 ```
 
 ## Results
