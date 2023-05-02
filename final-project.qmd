@@ -9,6 +9,17 @@ As CVD incidence continues to soar, the need for an effective predictive model c
 
 ## Data Description
 
+```{r loading packages and data, messages = F, warning = F}
+library(tidyverse)
+library(tidymodels)
+library(glmnet)
+library(MASS)
+library(leaps)
+library(dplyr)
+library(ggplot2)
+heart = read_csv("heart2.csv")
+```
+
 Source: https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset
 
 This dataset contains information about patients who were suspected to have heart disease. The dataset contains 1026 patients, each described by 14 features. These features include demographic information such as age, sex, and chest pain type, clinical variables such as blood pressure, cholesterol levels, and heart rate, and laboratory variables such as results from electrocardiogram (ECG) tests and exercise stress tests. It was formed by researchers at the Cleveland Clinic Foundation in 1988 by compiling data from medical records from Cleveland, Hungary, Switzerland, and Long Beach V. The "target" variable is what we are trying to predict; it is binary, indicating the presence or absence of heart disease with 0 and 1, respectively.
@@ -20,16 +31,16 @@ Damen, J. A., Hooft, L., Schuit, E., Debray, T. P., Collins, G. S., Tzoulaki, I.
 ## EDA
 ```{r summarizing-the-means}
 heart %>%
-  summarize(mean_age = mean(age),
-            mean_chol = mean(chol),
-            mean_trestbps = mean(trestbps),
-            mean_thalach = mean(thalach)) %>%
+  summarize(mean_age = mean(Age),
+            mean_chol = mean(Cholesterol),
+            mean_trestbps = mean(RestingBP),
+            mean_thalach = mean(MaxHR)) %>%
   as_tibble()
 ```
 
 ```{r cvd-distribution}
-ggplot(data = heart, aes(x = target)) +
-  geom_histogram(binwidth = 0.66) 
+ggplot(data = heart, aes(x = HeartDisease)) +
+  geom_histogram(binwidth = 0.5) 
   labs(title = "Distribution of CVD",
        subtitle = "Among Patients",
        x = "Presence of CVD",
@@ -41,16 +52,16 @@ Previous research has identified age, resting blood pressure, serum cholesterol,
 
 ```{r age}
 heart_summary <- heart %>%
-  group_by(target) %>%
-  summarise(mean = mean(age),
-            median = median(age),
-            sd = sd(age),
-            IQR = IQR(age))
+  group_by(HeartDisease) %>%
+  summarise(mean = mean(Age),
+            median = median(Age),
+            sd = sd(Age),
+            IQR = IQR(Age))
 heart_summary
 ```
 
 ```{r box plot for age }
-ggplot(heart, aes(x = age, y = target, group = target)) + 
+ggplot(heart, aes(x = Age, y = HeartDisease, group = HeartDisease)) + 
   geom_boxplot() +
   labs(title = "Age vs. Presence of CVD",
        x = "Age",
@@ -59,7 +70,7 @@ ggplot(heart, aes(x = age, y = target, group = target)) +
 ```
 
 ```{r box plot for cholesterol}
-ggplot(heart, aes(x = chol, y = target, group = target)) +  
+ggplot(heart, aes(x = Cholesterol, y = HeartDisease, group = HeartDisease)) +  
   geom_boxplot() +
   labs(title = "Cholesterol Distribution vs. Presence of CVD",
        x = "Serum cholestoral in mg/dl",
@@ -68,7 +79,7 @@ ggplot(heart, aes(x = chol, y = target, group = target)) +
 ```
 
 ```{r box plot for resting blood pressure}
-ggplot(heart, aes(x = trestbps, y = target, group = target)) + 
+ggplot(heart, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) + 
   geom_boxplot() +
   labs(title = "Resting Blood Pressure vs. Presence of CVD",
        x = "Resting blood pressure (in mm Hg on admission to the hospital)",
@@ -77,7 +88,7 @@ ggplot(heart, aes(x = trestbps, y = target, group = target)) +
 ```
 
 ```{r box plot for max hr}
-ggplot(heart, aes(x = thalach, y = target, group = target)) +  
+ggplot(heart, aes(x = MaxHR, y = HeartDisease, group = HeartDisease)) +  
   geom_boxplot() +
   labs(title = "Maximum Heart Rate vs. Presence of CVD",
        x = "Maximum heart rate achieved",
@@ -91,21 +102,12 @@ This section includes a brief description of your modeling process. Explain the 
 Grading criteria
 The analysis steps are appropriate for the data and research question. The group used a thorough and careful approach to select the final model; the approach is clearly described in the report. The model selection process was reasonable, and addressed any violations in model conditions were discussed and/or fixed. The model conditions and diagnostics are thoroughly and accurately assessed for their model. If violations of model conditions are still present, there was a reasonable attempt to address the violations based on the course content.
 
-```{r loading packages and data, messages = F, warning = F}
-library(tidyverse)
-library(tidymodels)
-library(glmnet)
-library(MASS)
-library(leaps)
-library(dplyr)
-library(ggplot2)
-heart = read_csv("heart.csv")
-```
+
 
 Using LASSO for variable selection
 ```{r var-select, message = F, warning = F}
-y <- heart$target
-x <- model.matrix(target ~ ., data = heart)
+y <- heart$HeartDisease
+x <- model.matrix(HeartDisease ~ ., data = heart)
 m_lasso_cv <- cv.glmnet(x, y, alpha = 1)
 best_lambda <- m_lasso_cv$lambda.min
 m_best <- glmnet(x, y, alpha = 1, lambda = best_lambda)
@@ -115,17 +117,17 @@ summary(m_best)
 
 Using stepwise method for variable selection
 ```{r stepwise}
-m_none <- lm(target ~ 1, data = heart)
-m_all <- lm(target ~ ., 
+m_none <- lm(HeartDisease ~ 1, data = heart)
+m_all <- lm(HeartDisease ~ ., 
             data = heart)
 stepAIC(m_none, 
         scope = list(lower = m_none, upper = m_all),
         data = heart, direction = "both")
 ```
 
-Using all subset selection (based on LASSO result)
+Using all subset selection
 ```{r all subset}
-m_all <- regsubsets(target ~ .-fbs -age -sex,
+m_all <- regsubsets(HeartDisease ~ .,
                   data = heart, 
                   nbest = 1, nvmax = 11)
 summary(m_all)
