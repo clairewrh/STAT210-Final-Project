@@ -113,6 +113,19 @@ ggplot(data_new, aes(x = MaxHR, y = HeartDisease, group = HeartDisease)) +
   theme_bw()
 ```
 
+```{r proportion plot for exercise angina}
+data_prop <- data %>% 
+  group_by(ExerciseAngina, HeartDisease) %>%
+  summarise(Freq = n()) %>%
+  mutate(Prop = Freq / sum(Freq))
+ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("#619CFF", "#FF6B5B"), labels = c("No Heart Disease", "Heart Disease")) +
+  labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
+  ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
+  theme_bw()
+
+```
 ## Methodology
 This section includes a brief description of your modeling process. Explain the reasoning for the type of model you’re fitting, predictor variables considered for the model including any interactions. Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
 
