@@ -21,6 +21,7 @@ library(glmnet)
 library(MASS)
 library(leaps)
 library(dplyr)
+library(broom)
 library(ggplot2)
 library(UpSetR)
 library(naniar)
@@ -114,7 +115,7 @@ ggplot(data_new, aes(x = MaxHR, y = HeartDisease, group = HeartDisease)) +
 ```
 
 ```{r proportion plot for exercise angina}
-data_prop <- data %>% 
+data_prop <- data_new %>% 
   group_by(ExerciseAngina, HeartDisease) %>%
   summarise(Freq = n()) %>%
   mutate(Prop = Freq / sum(Freq))
@@ -126,6 +127,20 @@ ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))
   theme_bw()
 
 ```
+```{r proportion plot for sex}
+data_props <- data_new %>% 
+  group_by(Sex, HeartDisease) %>%
+  summarise(Freq = n()) %>%
+  mutate(Prop = Freq / sum(Freq))
+ggplot(data_props, aes(x = Sex, y = Prop, fill = factor(HeartDisease))) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("#619CFF", "#FF6B5B"), labels = c("No Heart Disease", "Heart Disease")) +
+  labs(x = "Sex", y = "Proportion") +
+  ggtitle("Sex vs. Presence of CVD") +
+  theme_bw()
+
+```
+
 ## Methodology
 This section includes a brief description of your modeling process. Explain the reasoning for the type of model you’re fitting, predictor variables considered for the model including any interactions. Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
 
@@ -154,7 +169,7 @@ stepAIC(m_none,
         data = data, direction = "both")
 ```
 
-Using all subset selection
+Using all subset selection (not sure if nvmax should be set to 15)
 ```{r all subset}
 m_all <- regsubsets(HeartDisease ~ .,
                   data = data_new,
@@ -172,6 +187,107 @@ Why all subset? Maybe all of the predictors seem to make sense, we don't want to
 
 Need to figure out what old peak means, explain exercise angina, and ST slope.
 
+### Model attempts
+```{r logistic regression using #11 from all subset}
+m1 <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + FastingBS + 
+            ExerciseAngina + Oldpeak + ST_Slope, 
+          data = data_new,
+          family = "binomial")
+tidy(m1)
+m1_aug <- augment(m1)
+```
+
+Using a 0.05 significance level, it looks like the p-values of FastingBS & RestingBP are insignificant. Take these two predictors out:
+
+```{r logistic regression using from all subset}
+m2 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
+            Oldpeak + ST_Slope, 
+          data = data_new,
+          family = "binomial")
+tidy(m2)
+m2_aug <- augment(m2)
+```
+
+```{r logistic regression using all predictors}
+m3 <- glm(HeartDisease ~ ., 
+          data = data_new,
+          family = "binomial")
+tidy(m3)
+m3_aug <- augment(m3)
+```
+
+``` {r ROC curve for model m1}
+
+m1_aug <- m1_aug %>% 
+  mutate(prob = exp(.fitted)/(1 + exp(.fitted)),
+         pred_leg = ifelse(prob > 0.5, "Heart Disease", "No Heart Disease")) %>% 
+  dplyr::select(.fitted, prob, pred_leg, HeartDisease)
+
+m1_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot()
+
+m1_aug %>% 
+  roc_auc(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  )
+
+table(m1_aug $pred_leg, m1_aug $HeartDisease)
+``` 
+
+``` {r ROC curve for model m2}
+
+m2_aug <- m2_aug %>% 
+  mutate(prob = exp(.fitted)/(1 + exp(.fitted)),
+         pred_leg = ifelse(prob > 0.5, "Heart Disease", "No Heart Disease")) %>% 
+  dplyr::select(.fitted, prob, pred_leg, HeartDisease)
+
+m2_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot()
+
+m2_aug %>% 
+  roc_auc(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  )
+
+table(m2_aug $pred_leg, m2_aug $HeartDisease)
+``` 
+
+``` {r ROC curve for model m3}
+
+m3_aug <- m3_aug %>% 
+  mutate(prob = exp(.fitted)/(1 + exp(.fitted)),
+         pred_leg = ifelse(prob > 0.5, "Heart Disease", "No Heart Disease")) %>% 
+  dplyr::select(.fitted, prob, pred_leg, HeartDisease)
+
+m3_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot()
+
+m3_aug %>% 
+  roc_auc(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  )
+``` 
 
 ## Results
 This is where you will output the final model with any relevant model fit statistics. Describe the key results from the model. The goal is not to interpret every single variable in the model but rather to show that you are proficient in using the model output to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.
