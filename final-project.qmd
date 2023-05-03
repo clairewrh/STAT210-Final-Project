@@ -50,6 +50,12 @@ The distribution of CVD in our data appears to be relatively evenly distributed 
 
 Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, the type of chest pain (cp) is a significant factor in distinguishing between types of CVD. Therefore, we will include cp as a categorical predictor variable and conduct more exploratory data analysis on all these variables.
 
+Before examining the parameters of interest, we noticed that 173 out of the 919 observations have 0 mm/dl for their serum cholesterol level. 0 mm/dl serum cholesterol is physiologically impossible, hence we believe that these observations are missing cholesterol data, and the missing mechanism is unknown. We decide to use complete case analysis because it is relatively easy to interpret, and it can reduce bias in the estimates of the variables of interest when the missing data are missing completely at random or missing at random.
+
+```{r mutate cholesterol}
+heart$Cholesterol [heart$Cholesterol ==0] <- NA
+```
+
 ```{r age}
 heart_summary <- heart %>%
   group_by(HeartDisease) %>%
@@ -68,6 +74,7 @@ ggplot(heart, aes(x = Age, y = HeartDisease, group = HeartDisease)) +
        y = "Presence of CVD") +
   theme_bw()
 ```
+
 
 ```{r box plot for cholesterol}
 ggplot(heart, aes(x = Cholesterol, y = HeartDisease, group = HeartDisease)) +  
