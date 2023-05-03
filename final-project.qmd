@@ -11,6 +11,8 @@ As CVD incidence continues to soar, the need for an effective predictive model c
 
 This “Heart Failure Prediction Dataset” includes 11 characteristics that can be utilized to anticipate the potential risk of a CVD; it is called “Heart Failure Prediction Dataset” because it is not uncommon for a CVD to lead to heart failure (Velagaleti et al., 2007). The dataset was formed by merging five heart-related datasets (the Cleveland, Hungarian, Switzerland, Long Beach VA, and Stalog Heart Dataset) based on 11 common features. This dataset is currently the largest available heart disease dataset for research purposes, consisting of 918 observations.
 
+Source: https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction
+
 
 ```{r loading packages and data, messages = F, warning = F}
 library(tidyverse)
@@ -27,11 +29,6 @@ data = read_csv("heart2.csv")
 
 Source: https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset
 
-This dataset contains information about patients who were suspected to have heart disease. The dataset contains 1026 patients, each described by 14 features. These features include demographic information such as age, sex, and chest pain type, clinical variables such as blood pressure, cholesterol levels, and heart rate, and laboratory variables such as results from electrocardiogram (ECG) tests and exercise stress tests. It was formed by researchers at the Cleveland Clinic Foundation in 1988 by compiling data from medical records from Cleveland, Hungary, Switzerland, and Long Beach V. The "target" variable is what we are trying to predict; it is binary, indicating the presence or absence of heart disease with 0 and 1, respectively.
-
-Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed February 21, 2022.
-
-Damen, J. A., Hooft, L., Schuit, E., Debray, T. P., Collins, G. S., Tzoulaki, I., Lassale, C. M., Siontis, G. C., Chiocchia, V., Roberts, C., Schlüssel, M. M., Gerry, S., Black, J. A., Heus, P., van der Schouw, Y. T., Peelen, L. M., & Moons, K. G. (2016). Prediction models for cardiovascular disease risk in the general population: systematic review. BMJ (Clinical research ed.), 353, i2416. https://doi.org/10.1136/bmj.i2416
 
 ## EDA
 ```{r check missingness}
