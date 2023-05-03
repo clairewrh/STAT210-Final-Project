@@ -13,6 +13,20 @@ This “Heart Failure Prediction Dataset” includes 11 characteristics that can
 
 Source: https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction
 
+Data Dictionary:
+Age: age of the patient [years]
+Sex: sex of the patient [M: Male, F: Female]
+ChestPainType: chest pain type [TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic]
+RestingBP: resting blood pressure [mm Hg]
+Cholesterol: serum cholesterol [mm/dl]
+FastingBS: fasting blood sugar [1: if FastingBS > 120 mg/dl, 0: otherwise]
+RestingECG: resting electrocardiogram results [Normal: Normal, ST: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV), LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria]
+MaxHR: maximum heart rate achieved [Numeric value between 60 and 202]
+ExerciseAngina: exercise-induced angina [Y: Yes, N: No]
+Oldpeak: oldpeak = ST [Numeric value measured in depression]
+ST_Slope: the slope of the peak exercise ST segment [Up: upsloping, Flat: flat, Down: downsloping]
+HeartDisease: output class [1: heart disease, 0: Normal]
+
 
 ```{r loading packages and data, messages = F, warning = F}
 library(tidyverse)
@@ -106,13 +120,18 @@ ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) +
   theme_bw()
 ```
 
-```{r box plot for max hr}
-ggplot(data_new, aes(x = MaxHR, y = HeartDisease, group = HeartDisease)) +  
-  geom_boxplot() +
-  labs(title = "Maximum Heart Rate vs. Presence of CVD",
-       x = "Maximum heart rate achieved",
-       y = "Presence of CVD") +
+```{r box plot for fasting bs}
+data_propbs <- data_new %>% 
+  group_by(FastingBS, HeartDisease) %>%
+  summarise(Freq = n()) %>%
+  mutate(Prop = Freq / sum(Freq))
+ggplot(data_propbs, aes(x = FastingBS, y = Prop, fill = factor(HeartDisease))) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("#619CFF", "#FF6B5B"), labels = c("No Heart Disease", "Heart Disease")) +
+  labs(x = "0: Fasting BS < 120 mg/dl; 1: FastingBS > 120 mg/dl", y = "Proportion") +
+  ggtitle("Normal/Abnormal Fasting Blood Sugar vs. Presence of CVD") +
   theme_bw()
+
 ```
 
 ```{r proportion plot for exercise angina}
@@ -185,10 +204,36 @@ Why all subset? Maybe all of the predictors seem to make sense, we don't want to
 
  #11 has the lowest CP score (need to explain what cp means!and why we select based on cp score)
 11: Age, sex, chest pain, resting bp, fasting bs, exercise angina, old peak, ST slope.
+did not choose: cholesterol, resting ecg, max hr
 
 Need to figure out what old peak means, explain exercise angina, and ST slope.
 
+#cholesterol
+Research suggests that low-density lipoprotein cholesterol (LDL-C, the "bad" cholesterol) is not the best predictor of risk for a major coronary event in people who are generally healthy otherwise.
+
+#resting ecg
+The variable "RestingECG" may not be the best predictor of heart disease because it is only measuring the resting electrocardiogram results. Many people with heart disease may have a normal resting electrocardiogram, while others without heart disease may show abnormalities in their resting electrocardiogram. In contrast, other variables in the dataset, such as "ExerciseAngina" and "Oldpeak", are more directly related to the physiological response to exercise, which can be a stronger predictor of heart disease. Additionally, "RestingECG" only provides information about the electrical activity of the heart at rest, while "ExerciseAngina" provides information about the heart's response to physical stress, which can be a more sensitive indicator of heart disease.
+
+#max hr
+Max heart rate is not the best predictor of heart disease because it is highly confounded by age. As we age, our maximum heart rate decreases, so older individuals will have lower maximum heart rates even if they are healthy.
+
+#exercise angina
+Exercise-induced angina refers to chest pain or discomfort that occurs during physical activity, such as exercise, and is usually a result of reduced blood flow to the heart. It can be a symptom of underlying heart disease, such as coronary artery disease, which can be caused by the buildup of plaque in the arteries that supply the heart with blood. Therefore, the presence or absence of exercise-induced angina can be a useful diagnostic tool in identifying individuals at risk for or already suffering from heart disease.
+
+#old peak
+The variable "Oldpeak" refers to the ST segment depression induced by exercise relative to rest. It is a numeric variable that measures the difference in the ST segment of an electrocardiogram (ECG) before and after exercise. A positive value of Oldpeak indicates that the ST segment is depressed during exercise compared to at rest, which can be a sign of ischemia (insufficient blood flow) to the heart. The greater the magnitude of the depression, the more severe the ischemia. Therefore, Oldpeak is a useful predictor of the likelihood of heart disease and can be used in models to predict the risk of heart failure.
+
+#st slope
 The variable “ST_Slope” makes sense to include, as the ST segment exercise test, is one of the most widely used tests to screen for CVDs. Either depression (horizontal or downsloping) in the slope often suggests presence of CAD and warrants further management (Lim, 2016).
+
+#the 4 interactions that i added
+Age and Sex: Studies have shown that the relationship between age and heart disease risk may differ by sex, with women generally having a later onset of heart disease compared to men.
+
+Chest Pain Type and Sex: Some studies suggest that there may be differences in the way men and women experience chest pain during a heart attack, which could potentially impact the predictive power of chest pain type in a heart disease model.
+
+Exercise Angina and Oldpeak: Exercise-induced angina and ST depression during exercise are both markers of ischemia (reduced blood flow to the heart), and may therefore be related to each other in predicting heart disease risk.
+
+Oldpeak and ST Slope: The shape of the ST segment during exercise can be indicative of different types of ischemia, and may therefore have a complex relationship with the severity of heart disease risk as measured by the degree of ST depression (Oldpeak).
 
 ### Model attempts
 ```{r logistic regression using #11 from all subset}
@@ -202,9 +247,9 @@ m1_aug <- augment(m1)
 
 Using a 0.05 significance level, it looks like the p-values of FastingBS & RestingBP are insignificant. Take these two predictors out:
 
-```{r logistic regression using from all subset}
+```{r logistic regression using from all subset and i added 4 interactions}
 m2 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
-            Oldpeak + ST_Slope, 
+           + Oldpeak + ST_Slope + Age*Sex + Sex*ChestPainType + ExerciseAngina*ChestPainType + Oldpeak*ST_Slope, 
           data = data_new,
           family = "binomial")
 tidy(m2)
@@ -301,14 +346,17 @@ The model fit is clearly assessed, and interesting findings from the model are c
 ## Discussion
 In this section you’ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.
 
-Grading criteria
-Overall conclusions from analysis are clearly described, and the model results are put into the larger context of the subject matter and original research question. There is thoughtful consideration of potential limitations of the data and/or analysis, and ideas for future work are clearly described.
+Our model identified the main predictors for cardiovascular disease in this dataset and quantified their impact on the likelihood of having the disease. We found that traditional factors such as cholesterol and blood pressure lose their predictive power when richer data is available, such as fluoroscopy and electrocardiogram results, presence of other diseases, chest pain, and exercise tests. However, our analysis has limitations as the dataset is not representative of the general population, but only of those admitted to hospitals for conditions that could reasonably be suspected as heart disease. Therefore, we cannot generalize our findings to the overall population. To improve the analysis, we would need better data from a broader population. However, obtaining such data may not be feasible for most people. We believe that future research should focus on developing predictive models for heart disease in the general population, as early detection can help people make lifestyle changes or seek treatment sooner.
 
 Citations: 
 Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed May 1, 2023.
 
 Damen, J. A., Hooft, L., Schuit, E., Debray, T. P., Collins, G. S., Tzoulaki, I., Lassale, C. M., Siontis, G. C., Chiocchia, V., Roberts, C., Schlüssel, M. M., Gerry, S., Black, J. A., Heus, P., van der Schouw, Y. T., Peelen, L. M., & Moons, K. G. (2016). Prediction models for cardiovascular disease risk in the general population: systematic review. BMJ (Clinical research ed.), 353, i2416. https://doi.org/10.1136/bmj.i2416
 
+Downs, J. R., Clearfield, M., Weis, S., Whitney, E., Shapiro, D. R., Beere, P. A., Langendorfer, A., Stein, E. A., Kruyer, W., & Gotto, A. M., Jr (1998). Primary prevention of acute coronary events with lovastatin in men and women with average cholesterol levels: results of AFCAPS/TexCAPS. Air Force/Texas Coronary Atherosclerosis Prevention Study. JAMA, 279(20), 1615–1622. https://doi.org/10.1001/jama.279.20.1615
+
 Fedesoriano. (September 2021). Heart Failure Prediction Dataset. Retrieved [May 2, 2023] from https://www.kaggle.com/fedesoriano/heart-failure-prediction.
+
+Lim, Y. C., Teo, S. G., & Poh, K. K. (2016). ST-segment changes with exercise stress. Singapore medical journal, 57(7), 347–353. https://doi.org/10.11622/smedj.2016116
 
 Velagaleti, R. S., & Vasan, R. S. (2007). Heart failure in the twenty-first century: is it a coronary artery disease or hypertension problem?. Cardiology clinics, 25(4), 487–v. https://doi.org/10.1016/j.ccl.2007.08.010
