@@ -5,28 +5,29 @@ authors: Claire Wang & Xeno Hu
 ### Introduction
 Cardiovascular diseases (CVDs) are the leading cause of death in the United States, with one person dying of the disease every 34 seconds (Centers for Disease Control and Prevention, 2022). Previous research has highlighted male gender, old age, obesity, abnormal cholesterol and fasting blood glucose as important predictors for CVDs, among many others (Damen et al., 2016).
 
-As CVD incidence continues to soar, the need for an effective predictive model cannot be overstated. Such a model could enable doctors to take preventive measures, treat patients early, or encourage individuals at high risk to adopt lifestyle changes. In this report, we aim to construct a predictive model based on the "Heart Failure Prediction Dataset" by assessing the 11 possible predictors (including chest pain type, resting blood pressure, cholesterol levels, maximum heart rate, resting ECG measurements, etc.). By doing so, we seek to enhance the scientific community's understanding of CVDs and their associated risk factors, ultimately contributing to better prevention, early identification, and management of this critical disease for both individuals and populations.
+As CVD incidence continues to soar, the need for an effective predictive model cannot be overstated. Such a model could enable doctors to take preventive measures, treat patients early, or encourage individuals at high risk to adopt lifestyle changes. In this report, we aim to construct a predictive model based on the "Heart Failure Prediction Dataset" by assessing the 11 possible predictors (including chest pain type, resting blood pressure, cholesterol levels, maximum heart rate, resting ECG measurements, etc.). Our research question is, which combination of these factors is most effective in predicting CVDs? In answering this question, we seek to enhance the scientific community's understanding of CVDs and their associated risk factors, ultimately contributing to better prevention, early identification, and management of this critical disease for both individuals and populations.
 
 ## Data Description
 
-This “Heart Failure Prediction Dataset” includes 11 characteristics that can be utilized to anticipate the potential risk of a CVD; it is called “Heart Failure Prediction Dataset” because it is not uncommon for a CVD to lead to heart failure (Velagaleti et al., 2007). The dataset was formed by merging five heart-related datasets (the Cleveland, Hungarian, Switzerland, Long Beach VA, and Stalog Heart Dataset) based on 11 common features. This dataset is currently the largest available heart disease dataset for research purposes, consisting of 918 observations.
+This “Heart Failure Prediction Dataset” includes 11 characteristics that can be utilized to anticipate the potential risk of a CVD; it is called “Heart Failure Prediction Dataset” because it is not uncommon for a CVD to lead to heart failure (Velagaleti et al., 2007). The dataset was formed by merging five heart-related datasets (the Cleveland, Hungarian, Switzerland, Long Beach VA, and Stalog Heart Datasets) based on their 11 common features.This dataset is currently the largest available heart disease dataset for research purposes, consisting of 918 observations.
 
 Source: https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction
 
 Data Dictionary:
-Age: age of the patient [years]
-Sex: sex of the patient [M: Male, F: Female]
-ChestPainType: chest pain type [TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic]
-RestingBP: resting blood pressure [mm Hg]
-Cholesterol: serum cholesterol [mm/dl]
-FastingBS: fasting blood sugar [1: if FastingBS > 120 mg/dl, 0: otherwise]
-RestingECG: resting electrocardiogram results [Normal: Normal, ST: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV), LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria]
-MaxHR: maximum heart rate achieved [Numeric value between 60 and 202]
-ExerciseAngina: exercise-induced angina [Y: Yes, N: No]
-Oldpeak: oldpeak = ST [Numeric value measured in depression]
-ST_Slope: the slope of the peak exercise ST segment [Up: upsloping, Flat: flat, Down: downsloping]
-HeartDisease: output class [1: heart disease, 0: Normal]
+Age: The age of the patient in years.
+Sex: The gender of the patient, identified as Male (M) or Female (F).
+ChestPainType: The type of chest pain experienced by the patient, classified as Typical Angina (TA), Atypical Angina (ATA), Non-Anginal Pain (NAP), or Asymptomatic (ASY).
+RestingBP: The resting blood pressure of the patient in mm Hg.
+Cholesterol: The level of serum cholesterol in mm/dL.
+FastingBS: The level of fasting blood sugar, indicated as 1 if FastingBS > 120 mg/dL and 0 otherwise.
+RestingECG: The results of the patient's resting electrocardiogram, classified as Normal, having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV), or showing probable or definite left ventricular hypertrophy by Estes' criteria (LVH).
+MaxHR: The maximum heart rate achieved by the patient, measured in beats per minute (bpm) and ranging from 60 to 202.
+ExerciseAngina: Whether the patient experienced exercise-induced angina, identified as Yes (Y) or No (N).
+Oldpeak: The degree of ST depression induced by exercise relative to rest, measured in depression.
+ST_Slope: The slope of the peak exercise ST segment, classified as Up (upsloping), Flat (flat), or Down (downsloping).
+HeartDisease: The output class indicating the presence (1) or absence (0) of heart disease.
 
+Age, RestingBP, Cholesterol, MaxHR, and Oldpeak are continuous variables. Sex, ChestPainType, FastingBS, RestingECG, ExerciseAngina, ST_Slope, and HeartDisease are categorical variables.
 
 ```{r loading packages and data, messages = F, warning = F}
 library(tidyverse)
@@ -64,11 +65,12 @@ data_new <- subset(data) %>%
 
 ```{r cvd-distribution}
 ggplot(data = data_new, aes(x = HeartDisease)) +
-  geom_histogram(binwidth = 0.5) 
-  labs(title = "Distribution of CVD",
-       subtitle = "Among Patients",
+  geom_histogram(binwidth = 0.5, fill = "#BCDEBF") + 
+  labs(title = "Distribution of Patients With/Without CVDs",
+       subtitle = "0 = No CVD; 1 = CVD Present",
        x = "Presence of CVD",
        y = "Count")
+
 ```
 The distribution of CVD in our data appears to be relatively evenly distributed between patients with and without the disease. This suggests that there are sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.
 
@@ -127,12 +129,13 @@ data_propbs <- data_new %>%
   mutate(Prop = Freq / sum(Freq))
 ggplot(data_propbs, aes(x = FastingBS, y = Prop, fill = factor(HeartDisease))) +
   geom_col(position = "dodge") +
-  scale_fill_manual(values = c("#619CFF", "#FF6B5B"), labels = c("No Heart Disease", "Heart Disease")) +
+  scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
   labs(x = "0: Fasting BS < 120 mg/dl; 1: FastingBS > 120 mg/dl", y = "Proportion") +
   ggtitle("Normal/Abnormal Fasting Blood Sugar vs. Presence of CVD") +
   theme_bw()
 
 ```
+From this graph, we can reasonably infer that a fasting blood sugar level over 120 mg/dl could be a predictor for CVDs; when participants' fasting BS is below 120 mg/dl, there is a more even split between participants who have/do not have CVDs, wherein most of them do not have a CVD. However, for participants who have a fasting BS over 120 mg/dl, around 65% of them do have a CVD.
 
 ```{r proportion plot for exercise angina}
 data_prop <- data_new %>% 
@@ -141,12 +144,15 @@ data_prop <- data_new %>%
   mutate(Prop = Freq / sum(Freq))
 ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))) +
   geom_col(position = "dodge") +
-  scale_fill_manual(values = c("#619CFF", "#FF6B5B"), labels = c("No Heart Disease", "Heart Disease")) +
+  scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
   labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
   ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
   theme_bw()
 
 ```
+
+Over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina could be an important predictor for CVDs.
+
 ```{r proportion plot for sex}
 data_props <- data_new %>% 
   group_by(Sex, HeartDisease) %>%
@@ -154,12 +160,13 @@ data_props <- data_new %>%
   mutate(Prop = Freq / sum(Freq))
 ggplot(data_props, aes(x = Sex, y = Prop, fill = factor(HeartDisease))) +
   geom_col(position = "dodge") +
-  scale_fill_manual(values = c("#619CFF", "#FF6B5B"), labels = c("No Heart Disease", "Heart Disease")) +
+  scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
   labs(x = "Sex", y = "Proportion") +
   ggtitle("Sex vs. Presence of CVD") +
   theme_bw()
 
 ```
+There seems to be a sex difference in the prevalence of CVDs. There is a nearly even split between men who do/do not have a CVD; about 45% of the men do not have a CVD, while about 55% of them do. However, just over 20% of the women in this dataset have a CVD.
 
 ## Methodology
 This section includes a brief description of your modeling process. Explain the reasoning for the type of model you’re fitting, predictor variables considered for the model including any interactions. Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
@@ -348,7 +355,49 @@ m3_aug %>%
 ```{r nested models?}
 anova(m2, m3, test="Chisq")
 ```
-The p-value is 0.306 (>0.05 significance level) indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the 3 eliminated terms (cholesterol, resting ecg, max hr) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection.We would even prefer to use the simpler Model 2 over the more complex Model 3, as it has fewer variables and is easier to interpret.
+The p-value is 0.306 (>0.05 significance level) indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the 3 eliminated terms (Cholesterol, RestingECG, MaxHR) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection. We would even prefer to use the simpler Model 2 (that we came up with through all subset selection) over the more complex Model 3 (which includes all of the predictors), as it has fewer variables and is easier to interpret.
+
+```{r attempting to color and overlap the 3 roc curves}
+library(ggplot2)
+
+# plot ROC curves for each model
+p1 <- m1_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot(aes = c(color = "Model 1")) +
+  theme(legend.position = "bottom")
+
+p2 <- m2_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot(aes = c(color = "Model 2"))
+
+p3 <- m3_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot(aes = c(color = "Model 3"))
+
+# combine plots and customize colors and legend
+ggplot() +
+  geom_line(data = p1$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 1")) +
+  geom_line(data = p2$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 2")) +
+  geom_line(data = p3$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 3")) +
+  scale_color_manual(name = "Models", values = c("Model 1" = "#E987BC", "Model 2" = "#FAD761", "Model 3" = "#82A8E7")) +
+  xlab("False Positive Rate (1 - Specificity)") +
+  ylab("True Positive Rate (Sensitivity)") +
+  ggtitle("ROC Curves for Heart Disease Prediction Models") +
+  theme_bw()
+```
+
 
 ## Results
 This is where you will output the final model with any relevant model fit statistics. Describe the key results from the model. The goal is not to interpret every single variable in the model but rather to show that you are proficient in using the model output to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.
@@ -359,7 +408,21 @@ The model fit is clearly assessed, and interesting findings from the model are c
 ## Discussion
 In this section you’ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.
 
-Our model identified the main predictors for cardiovascular disease in this dataset and quantified their impact on the likelihood of having the disease. We found that traditional factors such as cholesterol and blood pressure lose their predictive power when richer data is available, such as fluoroscopy and electrocardiogram results, presence of other diseases, chest pain, and exercise tests. However, our analysis has limitations as the dataset is not representative of the general population, but only of those admitted to hospitals for conditions that could reasonably be suspected as heart disease. Therefore, we cannot generalize our findings to the overall population. To improve the analysis, we would need better data from a broader population. However, obtaining such data may not be feasible for most people. We believe that future research should focus on developing predictive models for heart disease in the general population, as early detection can help people make lifestyle changes or seek treatment sooner.
+#Summary
+Our model identified the main predictors for cardiovascular disease in this dataset and quantified their impact on the likelihood of having the disease. We found that traditional factors such as [cholesterol and blood pressure] lose their predictive power when richer data is available, such as [fluoroscopy and electrocardiogram results, presence of other diseases, chest pain, and exercise tests]. 
+
+#What we've learned about our research question
+- newer research is emerging, some of the metrics that we commonly think of as highly predictive actually aren't that good (can use cholesterol as an example)
+--> After identifying 172 data points with zero cholesterol levels, which is biologically implausible, we opted to exclude them from our study. Nonetheless, we noticed that these eliminated observations had a greater probability of presenting CVD than the average in the complete dataset. Therefore, the exclusion of these data points may have decreased the reliability of our analysis by reducing the sample size from 918 to 746, which could have introduced bias into our results. The validity of our study might be compromised due to the exclusion of this relevant information.
+
+#Limitations and Improvements
+Our analysis is limited due to the non-representativeness of the dataset, which only includes individuals admitted to hospitals for heart disease-related conditions. As a result, our findings cannot be generalized to the broader population. To address this limitation, future studies should aim to expand the sample size and include a more diverse population to enhance the generalizability of the results. Additionally, we suggest that future research should focus on developing predictive models for heart disease in the general population by collecting data from the general population, as early detection can facilitate lifestyle changes or prompt timely treatment. 
+
+#Limitations of our analysis
+- better ways we couldve done it?
+
+#talk about how the variables were already narrowed down, making it hard for us
+It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.
 
 Citations: 
 Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed May 1, 2023.
