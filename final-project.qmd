@@ -157,9 +157,10 @@ stepAIC(m_none,
 Using all subset selection
 ```{r all subset}
 m_all <- regsubsets(HeartDisease ~ .,
-                  data = data_new, 
-                  nbest = 1, nvmax = 11)
+                  data = data_new,
+                  nbest = 1, nvmax = 15)
 summary(m_all)
+summary(m_all)$cp
 ```
 
 ## Results
