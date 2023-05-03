@@ -129,10 +129,9 @@ Grading criteria
 The analysis steps are appropriate for the data and research question. The group used a thorough and careful approach to select the final model; the approach is clearly described in the report. The model selection process was reasonable, and addressed any violations in model conditions were discussed and/or fixed. The model conditions and diagnostics are thoroughly and accurately assessed for their model. If violations of model conditions are still present, there was a reasonable attempt to address the violations based on the course content.
 
 
-
 Using LASSO for variable selection
 ```{r var-select, message = F, warning = F}
-y <- data$HeartDisease
+y <- data_new$HeartDisease
 x <- model.matrix(HeartDisease ~ ., data = data)
 m_lasso_cv <- cv.glmnet(x, y, alpha = 1)
 best_lambda <- m_lasso_cv$lambda.min
@@ -143,7 +142,7 @@ summary(m_best)
 
 Using stepwise method for variable selection
 ```{r stepwise}
-m_none <- lm(HeartDisease ~ 1, data = data)
+m_none <- lm(HeartDisease ~ 1, data = data_new)
 m_all <- lm(HeartDisease ~ ., 
             data = data)
 stepAIC(m_none, 
@@ -154,7 +153,7 @@ stepAIC(m_none,
 Using all subset selection
 ```{r all subset}
 m_all <- regsubsets(HeartDisease ~ .,
-                  data = data, 
+                  data = data_new, 
                   nbest = 1, nvmax = 11)
 summary(m_all)
 ```
