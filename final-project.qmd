@@ -70,6 +70,7 @@ data_summary <- data_new %>%
             IQR = IQR(Age))
 data_summary
 ```
+
 ```{r table for sex }
 freq_table <- table(Sex = data_new$Sex, HeartDisease = data_new$HeartDisease)
 freq_table_tibble <- as_tibble(freq_table)
