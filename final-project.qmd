@@ -247,13 +247,21 @@ m1_aug <- augment(m1)
 
 Using a 0.05 significance level, it looks like the p-values of FastingBS & RestingBP are insignificant. Take these two predictors out:
 
-```{r logistic regression using from all subset and i added 4 interactions}
+```{r logistic regression using from all subset}
 m2 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
-           + Oldpeak + ST_Slope + Age*Sex + Sex*ChestPainType + ExerciseAngina*ChestPainType + Oldpeak*ST_Slope, 
+           + Oldpeak + ST_Slope, 
           data = data_new,
           family = "binomial")
 tidy(m2)
 m2_aug <- augment(m2)
+```
+```{r logistic regression using from all subset and i added 4 interactions}
+m4 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
+           + Oldpeak + ST_Slope + Age*Sex + Sex*ChestPainType + ExerciseAngina*ChestPainType + Oldpeak*ST_Slope, 
+          data = data_new,
+          family = "binomial")
+tidy(m4)
+m4_aug <- augment(m4)
 ```
 
 ```{r logistic regression using all predictors}
@@ -336,6 +344,11 @@ m3_aug %>%
     event_level = "second"
   )
 ``` 
+
+```{r nested models?}
+anova(m2, m3, test="Chisq")
+```
+The p-value is 0.306 (>0.05 significance level) indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the 3 eliminated terms (cholesterol, resting ecg, max hr) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection.We would even prefer to use the simpler Model 2 over the more complex Model 3, as it has fewer variables and is easier to interpret.
 
 ## Results
 This is where you will output the final model with any relevant model fit statistics. Describe the key results from the model. The goal is not to interpret every single variable in the model but rather to show that you are proficient in using the model output to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.
