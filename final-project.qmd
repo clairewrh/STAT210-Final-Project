@@ -47,15 +47,6 @@ data_new <- subset(data) %>%
 ```
 
 
-```{r summarizing-the-means}
-data_new%>%
-  summarize(mean_age = mean(Age),
-            mean_chol = mean(Cholesterol),
-            mean_trestbps = mean(RestingBP),
-            mean_thalach = mean(MaxHR)) %>%
-  as_tibble()
-```
-
 ```{r cvd-distribution}
 ggplot(data = data_new, aes(x = HeartDisease)) +
   geom_histogram(binwidth = 0.5) 
@@ -64,7 +55,7 @@ ggplot(data = data_new, aes(x = HeartDisease)) +
        x = "Presence of CVD",
        y = "Count")
 ```
-The distribution of CVD in our data appears to be relatively evenly distributed between patients with and without the disease. This means that there are sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.
+The distribution of CVD in our data appears to be relatively evenly distributed between patients with and without the disease. This suggests that there are sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.
 
 Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, the type of chest pain (cp) is a significant factor in distinguishing between types of CVD. Therefore, we will include cp as a categorical predictor variable and conduct more exploratory data analysis on all these variables.
 
