@@ -163,6 +163,16 @@ summary(m_all)
 summary(m_all)$cp
 ```
 
+Notes:
+
+Why all subset? Maybe all of the predictors seem to make sense, we don't want to select manually based on literature
+
+ #11 has the lowest CP score (need to explain what cp means!and why we select based on cp score)
+11: Age, sex, chest pain, resting bp, fasting bs, exercise angina, old peak, ST slope.
+
+Need to figure out what old peak means, explain exercise angina, and ST slope.
+
+
 ## Results
 This is where you will output the final model with any relevant model fit statistics. Describe the key results from the model. The goal is not to interpret every single variable in the model but rather to show that you are proficient in using the model output to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.
 
