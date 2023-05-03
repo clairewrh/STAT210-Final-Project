@@ -17,7 +17,9 @@ library(MASS)
 library(leaps)
 library(dplyr)
 library(ggplot2)
-heart = read_csv("heart2.csv")
+library(UpSetR)
+library(naniar)
+data = read_csv("heart2.csv")
 ```
 
 Source: https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset
@@ -29,8 +31,24 @@ Centers for Disease Control and Prevention, National Center for Health Statistic
 Damen, J. A., Hooft, L., Schuit, E., Debray, T. P., Collins, G. S., Tzoulaki, I., Lassale, C. M., Siontis, G. C., Chiocchia, V., Roberts, C., Schlüssel, M. M., Gerry, S., Black, J. A., Heus, P., van der Schouw, Y. T., Peelen, L. M., & Moons, K. G. (2016). Prediction models for cardiovascular disease risk in the general population: systematic review. BMJ (Clinical research ed.), 353, i2416. https://doi.org/10.1136/bmj.i2416
 
 ## EDA
+```{r check missingness}
+vis_miss(data)
+```
+At first glance, there seems to be no missingness in the dataset. 
+
+Upon closer examination, we discovered that 173 out of the 919 observations had a serum cholesterol level of 0 mm/dl. Since this is physiologically impossible, we concluded that these observations were actually missing cholesterol data. This meant that our dataset had missing values after all.
+
+We decide to use complete case analysis because it is relatively easy to implement, and it can reduce bias in the estimates of the variable of interest when the missing data are missing completely at random or missing at random. Although a complete case analysis in this case would lead to a 20% sample loss, we believe that it is better than imputation because our current knowledge does not allow accurate prediction of cholesterol levels of these observations.
+
+```{r drop cholesterol}
+data$Cholesterol [data$Cholesterol ==0] <- NA
+data_new <- subset(data) %>%
+  drop_na()
+```
+
+
 ```{r summarizing-the-means}
-heart %>%
+data_new%>%
   summarize(mean_age = mean(Age),
             mean_chol = mean(Cholesterol),
             mean_trestbps = mean(RestingBP),
@@ -39,7 +57,7 @@ heart %>%
 ```
 
 ```{r cvd-distribution}
-ggplot(data = heart, aes(x = HeartDisease)) +
+ggplot(data = data_new, aes(x = HeartDisease)) +
   geom_histogram(binwidth = 0.5) 
   labs(title = "Distribution of CVD",
        subtitle = "Among Patients",
@@ -50,24 +68,25 @@ The distribution of CVD in our data appears to be relatively evenly distributed 
 
 Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, the type of chest pain (cp) is a significant factor in distinguishing between types of CVD. Therefore, we will include cp as a categorical predictor variable and conduct more exploratory data analysis on all these variables.
 
-Before examining the parameters of interest, we noticed that 173 out of the 919 observations have 0 mm/dl for their serum cholesterol level. 0 mm/dl serum cholesterol is physiologically impossible, hence we believe that these observations are missing cholesterol data, and the missing mechanism is unknown. We decide to use complete case analysis because it is relatively easy to interpret, and it can reduce bias in the estimates of the variables of interest when the missing data are missing completely at random or missing at random.
-
-```{r mutate cholesterol}
-heart$Cholesterol [heart$Cholesterol ==0] <- NA
-```
 
 ```{r age}
-heart_summary <- heart %>%
+data_summary <- data_new %>%
   group_by(HeartDisease) %>%
   summarise(mean = mean(Age),
             median = median(Age),
             sd = sd(Age),
             IQR = IQR(Age))
-heart_summary
+data_summary
+```
+```{r table for sex }
+freq_table <- table(Sex = data_new$Sex, HeartDisease = data_new$HeartDisease)
+freq_table_tibble <- as_tibble(freq_table)
+colnames(freq_table_tibble) <- c("Sex", "No Heart Disease", "Heart Disease")
+freq_table_tibble
 ```
 
 ```{r box plot for age }
-ggplot(heart, aes(x = Age, y = HeartDisease, group = HeartDisease)) + 
+ggplot(data_new, aes(x = Age, y = HeartDisease, group = HeartDisease)) + 
   geom_boxplot() +
   labs(title = "Age vs. Presence of CVD",
        x = "Age",
@@ -77,7 +96,7 @@ ggplot(heart, aes(x = Age, y = HeartDisease, group = HeartDisease)) +
 
 
 ```{r box plot for cholesterol}
-ggplot(heart, aes(x = Cholesterol, y = HeartDisease, group = HeartDisease)) +  
+ggplot(data_new, aes(x = Cholesterol, y = HeartDisease, group = HeartDisease)) +  
   geom_boxplot() +
   labs(title = "Cholesterol Distribution vs. Presence of CVD",
        x = "Serum cholestoral in mg/dl",
@@ -86,7 +105,7 @@ ggplot(heart, aes(x = Cholesterol, y = HeartDisease, group = HeartDisease)) +
 ```
 
 ```{r box plot for resting blood pressure}
-ggplot(heart, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) + 
+ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) + 
   geom_boxplot() +
   labs(title = "Resting Blood Pressure vs. Presence of CVD",
        x = "Resting blood pressure (in mm Hg on admission to the hospital)",
@@ -95,7 +114,7 @@ ggplot(heart, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) +
 ```
 
 ```{r box plot for max hr}
-ggplot(heart, aes(x = MaxHR, y = HeartDisease, group = HeartDisease)) +  
+ggplot(data_new, aes(x = MaxHR, y = HeartDisease, group = HeartDisease)) +  
   geom_boxplot() +
   labs(title = "Maximum Heart Rate vs. Presence of CVD",
        x = "Maximum heart rate achieved",
@@ -113,8 +132,8 @@ The analysis steps are appropriate for the data and research question. The group
 
 Using LASSO for variable selection
 ```{r var-select, message = F, warning = F}
-y <- heart$HeartDisease
-x <- model.matrix(HeartDisease ~ ., data = heart)
+y <- data$HeartDisease
+x <- model.matrix(HeartDisease ~ ., data = data)
 m_lasso_cv <- cv.glmnet(x, y, alpha = 1)
 best_lambda <- m_lasso_cv$lambda.min
 m_best <- glmnet(x, y, alpha = 1, lambda = best_lambda)
@@ -124,18 +143,18 @@ summary(m_best)
 
 Using stepwise method for variable selection
 ```{r stepwise}
-m_none <- lm(HeartDisease ~ 1, data = heart)
+m_none <- lm(HeartDisease ~ 1, data = data)
 m_all <- lm(HeartDisease ~ ., 
-            data = heart)
+            data = data)
 stepAIC(m_none, 
         scope = list(lower = m_none, upper = m_all),
-        data = heart, direction = "both")
+        data = data, direction = "both")
 ```
 
 Using all subset selection
 ```{r all subset}
 m_all <- regsubsets(HeartDisease ~ .,
-                  data = heart, 
+                  data = data, 
                   nbest = 1, nvmax = 11)
 summary(m_all)
 ```
