@@ -187,6 +187,8 @@ Why all subset? Maybe all of the predictors seem to make sense, we don't want to
 
 Need to figure out what old peak means, explain exercise angina, and ST slope.
 
+The variable “ST_Slope” makes sense to include, as the ST segment exercise test, is one of the most widely used tests to screen for CVDs. Either depression (horizontal or downsloping) in the slope often suggests presence of CAD and warrants further management (Lim, 2016).
+
 ### Model attempts
 ```{r logistic regression using #11 from all subset}
 m1 <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + FastingBS + 
