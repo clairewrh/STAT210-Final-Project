@@ -277,77 +277,40 @@ tidy(m3)
 m3_aug <- augment(m3)
 ```
 
-``` {r ROC curve for model m1}
-
+``` {r AUC for m1 & m2 & m3}
 m1_aug <- m1_aug %>% 
   mutate(prob = exp(.fitted)/(1 + exp(.fitted)),
          pred_leg = ifelse(prob > 0.5, "Heart Disease", "No Heart Disease")) %>% 
   dplyr::select(.fitted, prob, pred_leg, HeartDisease)
-
-m1_aug %>% 
-  roc_curve(
-    truth = as.factor(HeartDisease),
-    prob, 
-    event_level = "second"
-  ) %>% 
-  autoplot()
-
 m1_aug %>% 
   roc_auc(
     truth = as.factor(HeartDisease),
     prob, 
     event_level = "second"
   )
-
-table(m1_aug $pred_leg, m1_aug $HeartDisease)
-``` 
-
-``` {r ROC curve for model m2}
-
 m2_aug <- m2_aug %>% 
   mutate(prob = exp(.fitted)/(1 + exp(.fitted)),
          pred_leg = ifelse(prob > 0.5, "Heart Disease", "No Heart Disease")) %>% 
   dplyr::select(.fitted, prob, pred_leg, HeartDisease)
-
-m2_aug %>% 
-  roc_curve(
-    truth = as.factor(HeartDisease),
-    prob, 
-    event_level = "second"
-  ) %>% 
-  autoplot()
-
 m2_aug %>% 
   roc_auc(
     truth = as.factor(HeartDisease),
     prob, 
     event_level = "second"
   )
-
-table(m2_aug $pred_leg, m2_aug $HeartDisease)
-``` 
-
-``` {r ROC curve for model m3}
-
 m3_aug <- m3_aug %>% 
   mutate(prob = exp(.fitted)/(1 + exp(.fitted)),
          pred_leg = ifelse(prob > 0.5, "Heart Disease", "No Heart Disease")) %>% 
   dplyr::select(.fitted, prob, pred_leg, HeartDisease)
-
-m3_aug %>% 
-  roc_curve(
-    truth = as.factor(HeartDisease),
-    prob, 
-    event_level = "second"
-  ) %>% 
-  autoplot()
-
 m3_aug %>% 
   roc_auc(
     truth = as.factor(HeartDisease),
     prob, 
     event_level = "second"
   )
+table(m1_aug $pred_leg, m1_aug $HeartDisease)
+table(m2_aug $pred_leg, m2_aug $HeartDisease)
+table(m3_aug $pred_leg, m3_aug $HeartDisease)
 ``` 
 
 
