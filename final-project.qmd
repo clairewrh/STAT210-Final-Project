@@ -309,6 +309,7 @@ Oldpeak and ST Slope: The shape of the ST segment during exercise can be indicat
 ```{r nested models?}
 anova(m2, m3, test="Chisq")
 ```
+
 The p-value is 0.306 (>0.05 significance level) indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the 3 eliminated terms (Cholesterol, RestingECG, MaxHR) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection. We would even prefer to use the simpler Model 2 (that we came up with through all subset selection) over the more complex Model 3 (which includes all of the predictors), as it has fewer variables and is easier to interpret.
 
 
