@@ -335,13 +335,15 @@ ggplot() +
 ```
 
 ```{r nested models?}
+anova(m2, m1, test="Chisq")
 anova(m2, m3, test="Chisq")
 ```
 
-The p-value is 0.306 (>0.05 significance level) indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the 3 eliminated terms (Cholesterol, RestingECG, MaxHR) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection. We would even prefer to use the simpler Model 2 (that we came up with through all subset selection) over the more complex Model 3 (which includes all of the predictors), as it has fewer variables and is easier to interpret.
+The p-values are 0.10 and 0.306 (>0.05 significance level) when comparing model 2 to model 1, and model 2 to model 3. This indicate that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the eliminated terms (Cholesterol, RestingECG, MaxHR, RestingBP, and FastingBS) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection. We would  prefer to use the simpler Model 2 (that we came up with through all subset selection and p-value emliniation) over the more complex Model 3 (which includes all of the predictors), as it has fewer variables and possibly has clearer interpretations.
+
 
 ```{r nested models again}
-anova(m2, m3, test="Chisq")
+anova(m1, m2, test="Chisq")
 ```
 explain this!!
 
