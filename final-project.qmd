@@ -75,9 +75,7 @@ ggplot(data = data_new, aes(x = HeartDisease)) +
        y = "Count")
 ```
 
-Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). Therefore, we will examine these predictors in our EDA.
-
-In addition, we suppose that sex should be an important predictor of CVDs because men are at a higher risk of developing CVDs than women. This could be due to hormonal and physiological differences as well as lifestyle factors such as smoking and high alcohol consumption in men, on average. Therefore, including sex as a predictor of interest in a heart disease model might be able to improve the accuracy of the predictions.
+Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, we suppose that sex should be an important predictor of CVDs because men are at a higher risk of developing CVDs than women (Maas, 2010). This could be due to hormonal and physiological differences as well as lifestyle factors such as smoking and high alcohol consumption in men, on average. As such, we will examine these predictors mentioned above in our EDA. However, we will still consider all of the remaining variables in when constructing our own model in the later sections.
 
 ```{r box plot for age }
 ggplot(data_new, aes(x = Age, y = HeartDisease, group = HeartDisease)) + 
@@ -130,23 +128,9 @@ ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))
 ```
 Over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina might be an important predictor for CVDs.
 
-#exercise angina
-Exercise-induced angina refers to chest pain or discomfort that occurs during physical activity, such as exercise, and is usually a result of reduced blood flow to the heart. It can be a symptom of underlying heart disease, such as coronary artery disease, which can be caused by the buildup of plaque in the arteries that supply the heart with blood. Therefore, the presence or absence of exercise-induced angina can be a useful diagnostic tool in identifying individuals at risk for or already suffering from heart disease.
-
-#old peak
-The variable "Oldpeak" refers to the ST segment depression induced by exercise relative to rest. It is a numeric variable that measures the difference in the ST segment of an electrocardiogram (ECG) before and after exercise. A positive value of Oldpeak indicates that the ST segment is depressed during exercise compared to at rest, which can be a sign of ischemia (insufficient blood flow) to the heart. The greater the magnitude of the depression, the more severe the ischemia. Therefore, Oldpeak is a useful predictor of the likelihood of heart disease and can be used in models to predict the risk of heart failure.
-
-#st slope
-The variable “ST_Slope” makes sense to include, as the ST segment exercise test, is one of the most widely used tests to screen for CVDs. Either depression (horizontal or downsloping) in the slope often suggests presence of CAD and warrants further management (Lim, 2016).
-
 
 ## Methodology
-This section includes a brief description of your modeling process. Explain the reasoning for the type of model you’re fitting, predictor variables considered for the model including any interactions. Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
-
-Grading criteria
-The analysis steps are appropriate for the data and research question. The group used a thorough and careful approach to select the final model; the approach is clearly described in the report. The model selection process was reasonable, and addressed any violations in model conditions were discussed and/or fixed. The model conditions and diagnostics are thoroughly and accurately assessed for their model. If violations of model conditions are still present, there was a reasonable attempt to address the violations based on the course content.
-
-We will use HeartDisease as our response variable. Since all predictors are associated with HeartDisease based on literature as established in the EDA, and the there are only 11 predictors in the dataset, we plan to start with an all subset selection method. An all subset selection takes all possible combinations of variables and predicts combination of variables leads to the "best" result. The results are evaluated based on Mallow's Cp values. If adding new parameters doesn't meaningfully decrease squared errors, the overall Cp score will be higher, hence the model with the lowest Cp score through an all subset selection will be chosen as the "best" model.
+We use a logistic regression model because we are trying to predict the log-odds of getting a CVD, a binary response variable. Since all predictors are associated with HeartDisease based on literature as established in the EDA, and the there are only 11 predictors in the dataset, we plan to start with an all subset selection method. An all subset selection takes all possible combinations of variables and predicts combination of variables leads to the "best" result. The results are evaluated based on Mallow's Cp values. If adding new parameters doesn't meaningfully decrease squared errors, the overall Cp score will be higher, hence the model with the lowest Cp score through an all subset selection will be chosen as the "best" model.
 
 ## All subset selection
 ```{r all subset}
@@ -194,6 +178,14 @@ m2 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina +
 tidy(m2)
 m2_aug <- augment(m2)
 ```
+#exercise angina
+Exercise-induced angina refers to chest pain or discomfort that occurs during physical activity, such as exercise, and is usually a result of reduced blood flow to the heart. It can be a symptom of underlying heart disease, such as coronary artery disease, which can be caused by the buildup of plaque in the arteries that supply the heart with blood. Therefore, the presence or absence of exercise-induced angina can be a useful diagnostic tool in identifying individuals at risk for or already suffering from heart disease.
+
+#old peak
+The variable "Oldpeak" refers to the ST segment depression induced by exercise relative to rest. It is a numeric variable that measures the difference in the ST segment of an electrocardiogram (ECG) before and after exercise. A positive value of Oldpeak indicates that the ST segment is depressed during exercise compared to at rest, which can be a sign of ischemia (insufficient blood flow) to the heart. The greater the magnitude of the depression, the more severe the ischemia. Therefore, Oldpeak is a useful predictor of the likelihood of heart disease and can be used in models to predict the risk of heart failure.
+
+#st slope
+The variable “ST_Slope” makes sense to include, as the ST segment exercise test, is one of the most widely used tests to screen for CVDs. Either depression (horizontal or downsloping) in the slope often suggests presence of CAD and warrants further management (Lim, 2016).
 
 Finally, we fitted a logistic model with all predictors included in order to provide a baseline of comparing the models. 
 ```{r logistic regression using all predictors}
@@ -294,6 +286,7 @@ The p-values are 0.10 and 0.306 (>0.05 significance level) when comparing model 
 anova(m1, m2, test="Chisq")
 ```
 explain this!!
+mention that the cut off for the predictions is 0.5!
 
 ## Assumptions
 
@@ -408,6 +401,8 @@ Downs, J. R., Clearfield, M., Weis, S., Whitney, E., Shapiro, D. R., Beere, P. A
 Fedesoriano. (September 2021). Heart Failure Prediction Dataset. Retrieved [May 2, 2023] from https://www.kaggle.com/fedesoriano/heart-failure-prediction.
 
 Lim, Y. C., Teo, S. G., & Poh, K. K. (2016). ST-segment changes with exercise stress. Singapore medical journal, 57(7), 347–353. https://doi.org/10.11622/smedj.2016116
+
+Maas, A. H., & Appelman, Y. E. (2010). Gender differences in coronary heart disease. Netherlands heart journal : monthly journal of the Netherlands Society of Cardiology and the Netherlands Heart Foundation, 18(12), 598–602. https://doi.org/10.1007/s12471-010-0841-y
 
 Velagaleti, R. S., & Vasan, R. S. (2007). Heart failure in the twenty-first century: is it a coronary artery disease or hypertension problem?. Cardiology clinics, 25(4), 487–v. https://doi.org/10.1016/j.ccl.2007.08.010
 
