@@ -242,7 +242,7 @@ Using a $\alpha = 0.05$  significance level, the p-values of RestingBP and Fasti
 
 ```{r logistic regression using 6 predictors}
 m2 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
-           + Oldpeak + ST_Slope + RestingBP, 
+           + Oldpeak + ST_Slope, 
           data = data_new,
           family = "binomial")
 tidy(m2)
