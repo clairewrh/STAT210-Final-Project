@@ -40,6 +40,8 @@ library(broom)
 library(ggplot2)
 library(UpSetR)
 library(naniar)
+library(pROC)
+library(Stat2Data)
 data = read_csv("heart2.csv")
 ```
 
@@ -175,17 +177,6 @@ Grading criteria
 The analysis steps are appropriate for the data and research question. The group used a thorough and careful approach to select the final model; the approach is clearly described in the report. The model selection process was reasonable, and addressed any violations in model conditions were discussed and/or fixed. The model conditions and diagnostics are thoroughly and accurately assessed for their model. If violations of model conditions are still present, there was a reasonable attempt to address the violations based on the course content.
 
 
-Using LASSO for variable selection
-```{r var-select, message = F, warning = F}
-y <- data_new$HeartDisease
-x <- model.matrix(HeartDisease ~ ., data = data)
-m_lasso_cv <- cv.glmnet(x, y, alpha = 1)
-best_lambda <- m_lasso_cv$lambda.min
-m_best <- glmnet(x, y, alpha = 1, lambda = best_lambda)
-m_best$beta
-summary(m_best)
-```
-
 Using stepwise method for variable selection
 ```{r stepwise}
 m_none <- lm(HeartDisease ~ 1, data = data_new)
@@ -262,14 +253,7 @@ m2 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina +
 tidy(m2)
 m2_aug <- augment(m2)
 ```
-```{r logistic regression using from all subset and i added 4 interactions}
-m4 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
-           + Oldpeak + ST_Slope + Age*Sex + Sex*ChestPainType + ExerciseAngina*ChestPainType + Oldpeak*ST_Slope, 
-          data = data_new,
-          family = "binomial")
-tidy(m4)
-m4_aug <- augment(m4)
-```
+
 
 ```{r logistic regression using all predictors}
 m3 <- glm(HeartDisease ~ ., 
@@ -351,6 +335,24 @@ m3_aug %>%
     event_level = "second"
   )
 ``` 
+
+
+
+
+```{r assumptions?}
+emplogitplot1(HeartDisease ~ Cholesterol,
+              data = data_new,
+              ngroups = 10)
+
+emplogitplot1(HeartDisease ~ MaxHR,
+              data = data_new,
+              ngroups = 10)
+
+emplogitplot1(HeartDisease ~ Age,
+              data = data_new,
+              ngroups = 10)
+```
+
 
 ```{r nested models?}
 anova(m2, m3, test="Chisq")
@@ -448,21 +450,6 @@ auc_m6 <- roc(test.data$HeartDisease, m6_pred)$auc
 print(auc_m6)
 ```
 
-```{r}
-
-```
-```{r trying to do leave one out cv????}
-library(caret)
-cv_method <- trainControl(method = "LOOCV")
-data_new$HeartDisease <- factor(data_new$HeartDisease, levels = c(0, 1))
-m7 <- train(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
-           + Oldpeak + ST_Slope, 
-            data = data_new, method = "glm", trControl = cv_method)
-m8 <- train(HeartDisease ~ ., 
-            data = data_new, method = "glm", trControl = cv_method)
-print(m7)
-print(m8)
-```
 
 Citations: 
 Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed May 1, 2023.
