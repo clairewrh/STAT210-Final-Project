@@ -2,7 +2,7 @@
 title: "Final Project"
 authors: Claire Wang & Xeno Hu
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 ### Introduction
 Cardiovascular diseases (CVDs) are the leading cause of death in the United States, with one person dying of the disease every 34 seconds (Centers for Disease Control and Prevention, 2022). Previous research has highlighted male gender, old age, obesity, abnormal cholesterol and fasting blood glucose as important predictors for CVDs, among many others (Damen et al., 2016).
@@ -178,8 +178,8 @@ data_prop <- data_new %>%
 ggplot(data_prop, aes(x = ChestPainType, y = Prop, fill = factor(HeartDisease))) +
   geom_col(position = "dodge") +
   scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
-  labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
-  ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
+  labs(x = "Types of chest pain", y = "Proportion") +
+  ggtitle("Types of chest pain vs. Presence of CVD") +
   theme_bw()
 
 ```
