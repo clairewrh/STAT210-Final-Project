@@ -170,6 +170,20 @@ ggplot(data_props, aes(x = Sex, y = Prop, fill = factor(HeartDisease))) +
 ```
 There seems to be a sex difference in the prevalence of CVDs. There is a nearly even split between men who do/do not have a CVD; about 45% of the men do not have a CVD, while about 55% of them do. However, just over 20% of the women in this dataset have a CVD.
 
+```{r proportion plot for chestpain type}
+data_prop <- data_new %>% 
+  group_by(ChestPainType, HeartDisease) %>%
+  summarise(Freq = n()) %>%
+  mutate(Prop = Freq / sum(Freq))
+ggplot(data_prop, aes(x = ChestPainType, y = Prop, fill = factor(HeartDisease))) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
+  labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
+  ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
+  theme_bw()
+
+```
+
 ## Methodology
 This section includes a brief description of your modeling process. Explain the reasoning for the type of model you’re fitting, predictor variables considered for the model including any interactions. Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
 
