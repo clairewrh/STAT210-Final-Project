@@ -293,56 +293,6 @@ table(m3_aug $pred_leg, m3_aug $HeartDisease)
 ``` 
 
 
-## Considering adding interaction terms
-Age and Sex: Studies have shown that the relationship between age and heart disease risk may differ by sex, with women generally having a later onset of heart disease compared to men.
-
-Chest Pain Type and Sex: Some studies suggest that there may be differences in the way men and women experience chest pain during a heart attack, which could potentially impact the predictive power of chest pain type in a heart disease model.
-
-Exercise Angina and Oldpeak: Exercise-induced angina and ST depression during exercise are both markers of ischemia (reduced blood flow to the heart), and may therefore be related to each other in predicting heart disease risk.
-
-Oldpeak and ST Slope: The shape of the ST segment during exercise can be indicative of different types of ischemia, and may therefore have a complex relationship with the severity of heart disease risk as measured by the degree of ST depression (Oldpeak).
-
-
-```{r nested models?}
-anova(m2, m3, test="Chisq")
-```
-
-The p-value is 0.306 (>0.05 significance level) indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the 3 eliminated terms (Cholesterol, RestingECG, MaxHR) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection. We would even prefer to use the simpler Model 2 (that we came up with through all subset selection) over the more complex Model 3 (which includes all of the predictors), as it has fewer variables and is easier to interpret.
-
-
-## Assumptions
-
-The two assumptions that are important in logistic regression are independence and linearity.
-
-Independence: There might be violations of independence. The dataset is a combination of five datasets from clinics at Cleveland, Hungarian, Switzerland, Long Beach VA, and the Stalog (Heart) Dataset. If, for example, the different institutions had different in measuring Max heart rate, or the Oldpeak that would lead to systematic differences, then knowing one observation might yield information on another observation. However, since the exact data collecting mechanism is unknown, and we are not knowledgable information to make deductions and act upon violations of independence, we assume that independence is not violated.
-
-Linearity: The 5 continuous variables that are involved in all models are Age, RestingBP, Cholesterol, MaxHR, and Oldpeak. As shown in all five plots below, the dots are randomly scattered across the empirical logits plots. Therefore, the linearity assumption is satisfied for the model.
-
-```{r assumptions}
-emplogitplot1(HeartDisease ~ Age,
-              data = data_new,
-              ngroups = 10)
-
-emplogitplot1(HeartDisease ~ RestingBP,
-              data = data_new,
-              ngroups = 4)
-
-emplogitplot1(HeartDisease ~ Cholesterol,
-              data = data_new,
-              ngroups = 10)
-
-emplogitplot1(HeartDisease ~ MaxHR,
-              data = data_new,
-              ngroups = 10)
-
-emplogitplot1(HeartDisease ~ Oldpeak,
-              data = data_new,
-              ngroups = 4)
-```
-
-
-
-
 ```{r attempting to color and overlap the 3 roc curves}
 library(ggplot2)
 
@@ -384,6 +334,47 @@ ggplot() +
   theme_bw()
 ```
 
+```{r nested models?}
+anova(m2, m3, test="Chisq")
+```
+
+The p-value is 0.306 (>0.05 significance level) indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the 3 eliminated terms (Cholesterol, RestingECG, MaxHR) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection. We would even prefer to use the simpler Model 2 (that we came up with through all subset selection) over the more complex Model 3 (which includes all of the predictors), as it has fewer variables and is easier to interpret.
+
+```{r nested models again}
+anova(m2, m3, test="Chisq")
+```
+explain this!!
+
+## Assumptions
+
+The two assumptions that are important in logistic regression are independence and linearity.
+
+Independence: There might be violations of independence. The dataset is a combination of five datasets from clinics at Cleveland, Hungarian, Switzerland, Long Beach VA, and the Stalog (Heart) Dataset. If, for example, the different institutions had different in measuring Max heart rate, or the Oldpeak that would lead to systematic differences, then knowing one observation might yield information on another observation. However, since the exact data collecting mechanism is unknown, and we are not knowledgable information to make deductions and act upon violations of independence, we assume that independence is not violated.
+
+Linearity: The 5 continuous variables that are involved in all models are Age, RestingBP, Cholesterol, MaxHR, and Oldpeak. As shown in all five plots below, the dots are randomly scattered across the empirical logits plots. Therefore, the linearity assumption is satisfied for the model.
+
+```{r assumptions}
+emplogitplot1(HeartDisease ~ Age,
+              data = data_new,
+              ngroups = 10)
+
+emplogitplot1(HeartDisease ~ RestingBP,
+              data = data_new,
+              ngroups = 4)
+
+emplogitplot1(HeartDisease ~ Cholesterol,
+              data = data_new,
+              ngroups = 10)
+
+emplogitplot1(HeartDisease ~ MaxHR,
+              data = data_new,
+              ngroups = 10)
+
+emplogitplot1(HeartDisease ~ Oldpeak,
+              data = data_new,
+              ngroups = 4)
+```
+
 #cholesterol
 Research suggests that low-density lipoprotein cholesterol (LDL-C, the "bad" cholesterol) is not the best predictor of risk for a major coronary event in people who are generally healthy otherwise.
 
@@ -419,7 +410,17 @@ Our analysis is limited due to the non-representativeness of the dataset, which 
 #talk about how the variables were already narrowed down, making it hard for us
 It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.
 
-```{r trying to do a holdout method}
+# Considering adding interaction terms
+Age and Sex: Studies have shown that the relationship between age and heart disease risk may differ by sex, with women generally having a later onset of heart disease compared to men.
+
+Chest Pain Type and Sex: Some studies suggest that there may be differences in the way men and women experience chest pain during a heart attack, which could potentially impact the predictive power of chest pain type in a heart disease model.
+
+Exercise Angina and Oldpeak: Exercise-induced angina and ST depression during exercise are both markers of ischemia (reduced blood flow to the heart), and may therefore be related to each other in predicting heart disease risk.
+
+Oldpeak and ST Slope: The shape of the ST segment during exercise can be indicative of different types of ischemia, and may therefore have a complex relationship with the severity of heart disease risk as measured by the degree of ST depression (Oldpeak).
+
+```{r holdout method}
+#chose to keep or not based off of page limit
 set.seed(123)
 dim(data_new)
 indices <- sample(1:746, size = 746 * 0.8, replace = F)
@@ -427,20 +428,20 @@ train.data  <- data_new %>%
   slice(indices)
 test.data <- data_new %>% 
   slice(-indices)
-m5 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
+m2_train <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
            + Oldpeak + ST_Slope, 
           data = train.data,
           family = "binomial")
-m6 <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + Cholesterol + FastingBS + RestingECG + MaxHR + ExerciseAngina + Oldpeak + 
+m3_train <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + Cholesterol + FastingBS + RestingECG + MaxHR + ExerciseAngina + Oldpeak + 
     ST_Slope, 
           data = train.data,
           family = "binomial")
-m5_pred <- predict(m5, test.data)
-m6_pred <- predict(m6, test.data)
-auc_m5 <- roc(test.data$HeartDisease, m5_pred)$auc
-print(auc_m5)
-auc_m6 <- roc(test.data$HeartDisease, m6_pred)$auc
-print(auc_m6)
+m2_train_pred <- predict(m5, test.data)
+m3_train_pred <- predict(m6, test.data)
+auc_m2_train <- roc(test.data$HeartDisease, m2_train_pred)$auc
+print(auc_m2_train)
+auc_m3_train <- roc(test.data$HeartDisease, m3_train_pred)$auc
+print(auc_m3_train)
 ```
 
 References:
