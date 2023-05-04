@@ -77,16 +77,6 @@ ggplot(data = data_new, aes(x = HeartDisease)) +
 
 Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, the type of chest pain ("ChestPainType") is a significant factor in distinguishing between types of CVD. Therefore, we will include "ChestPainType" as a categorical predictor variable and conduct more exploratory data analysis on all these variables. 
 
-```{r age}
-data_summary <- data_new %>%
-  group_by(HeartDisease) %>%
-  summarise(mean = mean(Age),
-            median = median(Age),
-            sd = sd(Age),
-            IQR = IQR(Age))
-data_summary
-```
-
 Based on literature, we suppose that sex should be an important predictor of CVDs because men are at a higher risk of developing CVDs than women. This could be due to hormonal and physiological differences as well as lifestyle factors such as smoking and high alcohol consumption in men, on average. Therefore, including sex as a predictor variable in a heart disease model might be able to improve the accuracy of the predictions.
 
 ```{r table for sex }
@@ -105,16 +95,6 @@ ggplot(data_new, aes(x = Age, y = HeartDisease, group = HeartDisease)) +
   theme_bw()
 ```
 
-
-```{r box plot for cholesterol}
-ggplot(data_new, aes(x = Cholesterol, y = HeartDisease, group = HeartDisease)) +  
-  geom_boxplot() +
-  labs(title = "Cholesterol Distribution vs. Presence of CVD",
-       x = "Serum cholestoral in mg/dl",
-       y = "Presence of CVD") +
-  theme_bw()
-```
-
 ```{r box plot for resting blood pressure}
 ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) + 
   geom_boxplot() +
@@ -123,6 +103,7 @@ ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) +
        y = "Presence of CVD") +
   theme_bw()
 ```
+write a justification for this plot above if we keep it!!
 
 ```{r box plot for fasting bs}
 data_propbs <- data_new %>% 
@@ -152,7 +133,6 @@ ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))
   theme_bw()
 
 ```
-
 Over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina could be an important predictor for CVDs.
 
 ```{r proportion plot for sex}
@@ -387,15 +367,18 @@ The variable "RestingECG" may not be the best predictor of heart disease because
 
 #max hr
 Max heart rate is not the best predictor of heart disease because it is highly confounded by age. As we age, our maximum heart rate decreases, so older individuals will have lower maximum heart rates even if they are healthy.
+Furthermore, medications for CVDs include beta blockers, which naturally slows down a person's heart rate.
 
+### Results
 
-## Results
-This is where you will output the final model with any relevant model fit statistics. Describe the key results from the model. The goal is not to interpret every single variable in the model but rather to show that you are proficient in using the model output to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.
-
+#Equation
 $$log(odds)= -3.60 + 0.039 (Age) + 1.792 (Sex\:Male) - 1.656 (Atypical\:Anginal\:Chest\:Pain) - 1.579 (NonAnginal\:Chest\:Pain) -1.511 (Typical\:Anginal\:Chest\:Pain) + 0.935(Exercise\:Angina) + 0.421(OldPeak) + 1.239(St_SlopeFlat) -1.275(ST_SlopeUp)$$
+After evaluating and comparing the model performances using the ROC curve, the AUC metric, and an F-test (all three models are nested), we see that all three models achieved very similar performance in terms of AUC score (0.934 for model 1, 0.933 for model 2, and 0.935 for model 3). We selected model 2 as our final model, although it seems to have the lowest AUC score among all three models, because our F-tests show that model 2 is not significantly different from model 1 and model 3. This suggests that there is not sufficient evidence indicating that it is helpful to additionally include the other five predictors Cholesterol, RestingECG, MaxHR, RestingBP, and FastingBS in the model.  
 
-Grading criteria
-The model fit is clearly assessed, and interesting findings from the model are clearly described. Interpretations of model coefficients are used to support the key findings and conclusions, rather than merely listing the interpretation of every model coefficient. If the primary modeling objective is prediction, the model’s predictive power is thoroughly assessed.
+The intercept for our model represents a newborn female with no chest pain, no exercise-induced angina, no ST depression (0 degrees) on their ECG upon exercise that remains flat throughout exercise. The intercept value corresponds to log-odds of having a CVD vs. not having a CVD being 0.027 ($$e^-3.6$$) in this population.
+Consistent with existing scientific literature, we see in our chosen model that as people get older, their log-odds of developing a CVD increases; specifically, their log-odds is expected to increase by $$e^0.039=1.04$$ with every passing year. We found that sex is positively correlated with the log-odds of developing a CVD, in that a male’s likelihood of having a CVD is expected to be $$e^1.792 = 6.00$$ times that of a female, holding all else constant. As mentioned before, this is consistent with existing scientific literature. We also found that if a patient has exercise angina, their likelihood of having a CVD is $$e^0.935=2.55$$ times higher than that of a patient who doesn’t have exercise angina, when holding all other variables constant. This makes sense because exercise angina has to do with discomfort when heart muscle receives insufficient blood and oxygen during physical activity, which is mostly due to narrowing of arteries and can lead to CVDs and heart failure. With every degree increase in the depression of the ST segment slope on a patient’s ECG during exercise, their log-odds of developing a CVD is expected to increase by $$e^0.421=1.52$$ times. In a similar train of logic, our model also shows that when compared to a decreasing ST slope during exercise, having an flat ST slope is expected to increase a patient’s log-odds of developing a CVD by $$e^1.239=3.45$$ and having an upwards ST slope is expected to decrease their log-odds by $$e^-1.275=0.28$$.  
+
+An unexpected discovery from our model is that people who are asymptomatic for chest pain are predicted to have the highest logodds of developing CVD, while controlling for all other variables. This might be explained through two layers of analysis. First, this dataset is not collected randomly from any population, but rather from people who visit the clinics and are probably suspected to have heart diseases. Hence, there is some sort of self-selection to get these variables documented when a participant does not experience chest pain yet is suspected to have heart disease. Second, how long the patients have been diagnosed with CVD is unknown, therefore some patients might have actively engaged in treatment processes and no longer experience chest pain, while still under the diagnosis of CVD.  
 
 ## Discussion
 In this section you’ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved. Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here. Lastly, this section will include ideas for future work.
@@ -411,12 +394,7 @@ Our model identified the main predictors for cardiovascular disease in this data
 Our analysis is limited due to the non-representativeness of the dataset, which only includes individuals admitted to hospitals for heart disease-related conditions. As a result, our findings cannot be generalized to the broader population. To address this limitation, future studies should aim to expand the sample size and include a more diverse population to enhance the generalizability of the results. Additionally, we suggest that future research should focus on developing predictive models for heart disease in the general population by collecting data from the general population, as early detection can facilitate lifestyle changes or prompt timely treatment. 
 
 #Limitations of our analysis
-- better ways we couldve done it?
-
-#talk about how the variables were already narrowed down, making it hard for us
-It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.
-
-# Considering adding interaction terms
+- better ways we couldve done it? --> adding interaction terms
 Age and Sex: Studies have shown that the relationship between age and heart disease risk may differ by sex, with women generally having a later onset of heart disease compared to men.
 
 Chest Pain Type and Sex: Some studies suggest that there may be differences in the way men and women experience chest pain during a heart attack, which could potentially impact the predictive power of chest pain type in a heart disease model.
@@ -424,6 +402,10 @@ Chest Pain Type and Sex: Some studies suggest that there may be differences in t
 Exercise Angina and Oldpeak: Exercise-induced angina and ST depression during exercise are both markers of ischemia (reduced blood flow to the heart), and may therefore be related to each other in predicting heart disease risk.
 
 Oldpeak and ST Slope: The shape of the ST segment during exercise can be indicative of different types of ischemia, and may therefore have a complex relationship with the severity of heart disease risk as measured by the degree of ST depression (Oldpeak).
+
+#talk about how the variables were already narrowed down, making it hard for us
+It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.
+
 
 ```{r holdout method}
 #chose to keep or not based off of page limit
