@@ -388,6 +388,8 @@ Max heart rate is not the best predictor of heart disease because it is highly c
 ## Results
 This is where you will output the final model with any relevant model fit statistics. Describe the key results from the model. The goal is not to interpret every single variable in the model but rather to show that you are proficient in using the model output to address the research questions, using the interpretations to support your conclusions. Focus on the variables that help you answer the research question and that provide relevant context for the reader.
 
+$$log(odds)= -3.60 + 0.039 (Age) + 1.792 (Sex\:Male) - 1.656 (Atypical\:Anginal\:Chest\:Pain) - 1.579 (NonAnginal\:Chest\:Pain) -1.511 (Typical\:Anginal\:Chest\:Pain) + 0.935(Exercise\:Angina) + 0.421(OldPeak) + 1.239(St_SlopeFlat) -1.275(ST_SlopeUp)$$
+
 Grading criteria
 The model fit is clearly assessed, and interesting findings from the model are clearly described. Interpretations of model coefficients are used to support the key findings and conclusions, rather than merely listing the interpretation of every model coefficient. If the primary modeling objective is prediction, the model’s predictive power is thoroughly assessed.
 
