@@ -428,9 +428,9 @@ It is important to emphasize that the list of 11 variables under consideration i
 set.seed(123)
 dim(data_new)
 indices <- sample(1:746, size = 746 * 0.8, replace = F)
-train.data  <- data %>% 
+train.data  <- data_new %>% 
   slice(indices)
-test.data <- data %>% 
+test.data <- data_new %>% 
   slice(-indices)
 m5 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
            + Oldpeak + ST_Slope, 
@@ -442,16 +442,14 @@ m6 <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + Cholesterol + F
           family = "binomial")
 m5_pred <- predict(m5, test.data)
 m6_pred <- predict(m6, test.data)
-head(m5_pred)
-head(m6_pred)
-head(test.data$HeartDisease)
+auc_m5 <- roc(test.data$HeartDisease, m5_pred)$auc
+print(auc_m5)
+auc_m6 <- roc(test.data$HeartDisease, m6_pred)$auc
+print(auc_m6)
 ```
 
 ```{r}
-rmse_m5 <- sqrt(mean((test.data$HeartDisease - m5_pred)^2))
-rmse_m6 <- sqrt(mean((test.data$HeartDisease - m6_pred)^2))
-rmse_m5
-rmse_m6
+
 ```
 ```{r trying to do leave one out cv????}
 library(caret)
