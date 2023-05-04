@@ -75,16 +75,9 @@ ggplot(data = data_new, aes(x = HeartDisease)) +
        y = "Count")
 ```
 
-Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, the type of chest pain ("ChestPainType") is a significant factor in distinguishing between types of CVD. Therefore, we will include "ChestPainType" as a categorical predictor variable and conduct more exploratory data analysis on all these variables. 
+Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). Therefore, we will examine these predictors in our EDA.
 
-Based on literature, we suppose that sex should be an important predictor of CVDs because men are at a higher risk of developing CVDs than women. This could be due to hormonal and physiological differences as well as lifestyle factors such as smoking and high alcohol consumption in men, on average. Therefore, including sex as a predictor variable in a heart disease model might be able to improve the accuracy of the predictions.
-
-```{r table for sex }
-freq_table <- table(Sex = data_new$Sex, HeartDisease = data_new$HeartDisease)
-freq_table_tibble <- as_tibble(freq_table)
-colnames(freq_table_tibble) <- c("Sex", "No Heart Disease", "Heart Disease")
-freq_table_tibble
-```
+In addition, we suppose that sex should be an important predictor of CVDs because men are at a higher risk of developing CVDs than women. This could be due to hormonal and physiological differences as well as lifestyle factors such as smoking and high alcohol consumption in men, on average. Therefore, including sex as a predictor of interest in a heart disease model might be able to improve the accuracy of the predictions.
 
 ```{r box plot for age }
 ggplot(data_new, aes(x = Age, y = HeartDisease, group = HeartDisease)) + 
@@ -94,46 +87,6 @@ ggplot(data_new, aes(x = Age, y = HeartDisease, group = HeartDisease)) +
        y = "Presence of CVD") +
   theme_bw()
 ```
-
-```{r box plot for resting blood pressure}
-ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) + 
-  geom_boxplot() +
-  labs(title = "Resting Blood Pressure vs. Presence of CVD",
-       x = "Resting blood pressure (in mm Hg on admission to the hospital)",
-       y = "Presence of CVD") +
-  theme_bw()
-```
-write a justification for this plot above if we keep it!!
-
-```{r box plot for fasting bs}
-data_propbs <- data_new %>% 
-  group_by(FastingBS, HeartDisease) %>%
-  summarise(Freq = n()) %>%
-  mutate(Prop = Freq / sum(Freq))
-ggplot(data_propbs, aes(x = FastingBS, y = Prop, fill = factor(HeartDisease))) +
-  geom_col(position = "dodge") +
-  scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
-  labs(x = "0: Fasting BS < 120 mg/dl; 1: FastingBS > 120 mg/dl", y = "Proportion") +
-  ggtitle("Normal/Abnormal Fasting Blood Sugar vs. Presence of CVD") +
-  theme_bw()
-
-```
-From this graph, we can reasonably infer that a fasting blood sugar level over 120 mg/dl could be a predictor for CVDs; when participants' fasting BS is below 120 mg/dl, there is a more even split between participants who have/do not have CVDs, wherein most of them do not have a CVD. However, for participants who have a fasting BS over 120 mg/dl, around 65% of them do have a CVD.
-
-```{r proportion plot for exercise angina}
-data_prop <- data_new %>% 
-  group_by(ExerciseAngina, HeartDisease) %>%
-  summarise(Freq = n()) %>%
-  mutate(Prop = Freq / sum(Freq))
-ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))) +
-  geom_col(position = "dodge") +
-  scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
-  labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
-  ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
-  theme_bw()
-
-```
-Over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina could be an important predictor for CVDs.
 
 ```{r proportion plot for sex}
 data_props <- data_new %>% 
@@ -150,19 +103,32 @@ ggplot(data_props, aes(x = Sex, y = Prop, fill = factor(HeartDisease))) +
 ```
 There seems to be a sex difference in the prevalence of CVDs. There is a nearly even split between men who do/do not have a CVD; about 45% of the men do not have a CVD, while about 55% of them do. However, just over 20% of the women in this dataset have a CVD.
 
-```{r proportion plot for chestpain type}
+
+```{r box plot for resting blood pressure}
+ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) + 
+  geom_boxplot() +
+  labs(title = "Resting Blood Pressure vs. Presence of CVD",
+       x = "Resting blood pressure (in mm Hg on admission to the hospital)",
+       y = "Presence of CVD") +
+  theme_bw()
+```
+It seems that patients diagnosed with CVD have higher resting blood pressure, which is consistent with the aforementioned literature findings.
+
+
+```{r proportion plot for exercise angina}
 data_prop <- data_new %>% 
-  group_by(ChestPainType, HeartDisease) %>%
+  group_by(ExerciseAngina, HeartDisease) %>%
   summarise(Freq = n()) %>%
   mutate(Prop = Freq / sum(Freq))
-ggplot(data_prop, aes(x = ChestPainType, y = Prop, fill = factor(HeartDisease))) +
+ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))) +
   geom_col(position = "dodge") +
   scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
-  labs(x = "Types of chest pain", y = "Proportion") +
-  ggtitle("Types of chest pain vs. Presence of CVD") +
+  labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
+  ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
   theme_bw()
 
 ```
+Over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina might be an important predictor for CVDs.
 
 #exercise angina
 Exercise-induced angina refers to chest pain or discomfort that occurs during physical activity, such as exercise, and is usually a result of reduced blood flow to the heart. It can be a symptom of underlying heart disease, such as coronary artery disease, which can be caused by the buildup of plaque in the arteries that supply the heart with blood. Therefore, the presence or absence of exercise-induced angina can be a useful diagnostic tool in identifying individuals at risk for or already suffering from heart disease.
@@ -210,7 +176,7 @@ Since our outcome is binary, we decided to fit a logistic model using the 8 pred
 
 ## Model attempts
 ```{r logistic regression using 8 predictors}
-m1 <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + FastingBS + 
+m1 <- glm(HeartDisease ~ Age + Sex + RestingBP + FastingBS + ChestPainType +
             ExerciseAngina + Oldpeak + ST_Slope, 
           data = data_new,
           family = "binomial")
