@@ -1,6 +1,8 @@
 ---
 title: "Final Project"
 authors: Claire Wang & Xeno Hu
+editor_options: 
+  chunk_output_type: console
 ---
 ### Introduction
 Cardiovascular diseases (CVDs) are the leading cause of death in the United States, with one person dying of the disease every 34 seconds (Centers for Disease Control and Prevention, 2022). Previous research has highlighted male gender, old age, obesity, abnormal cholesterol and fasting blood glucose as important predictors for CVDs, among many others (Damen et al., 2016).
@@ -440,8 +442,8 @@ m3_train <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + Cholester
     ST_Slope, 
           data = train.data,
           family = "binomial")
-m2_train_pred <- predict(m5, test.data)
-m3_train_pred <- predict(m6, test.data)
+m2_train_pred <- predict(m2_train, test.data)
+m3_train_pred <- predict(m3_train, test.data)
 auc_m2_train <- roc(test.data$HeartDisease, m2_train_pred)$auc
 print(auc_m2_train)
 auc_m3_train <- roc(test.data$HeartDisease, m3_train_pred)$auc
