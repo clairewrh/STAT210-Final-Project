@@ -424,6 +424,48 @@ Our analysis is limited due to the non-representativeness of the dataset, which 
 #talk about how the variables were already narrowed down, making it hard for us
 It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.
 
+```{r trying to do a holdout method}
+set.seed(123)
+dim(data_new)
+indices <- sample(1:746, size = 746 * 0.8, replace = F)
+train.data  <- data %>% 
+  slice(indices)
+test.data <- data %>% 
+  slice(-indices)
+m5 <- glm(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
+           + Oldpeak + ST_Slope, 
+          data = train.data,
+          family = "binomial")
+m6 <- glm(HeartDisease ~ Age + Sex + ChestPainType + RestingBP + Cholesterol + FastingBS + RestingECG + MaxHR + ExerciseAngina + Oldpeak + 
+    ST_Slope, 
+          data = train.data,
+          family = "binomial")
+m5_pred <- predict(m5, test.data)
+m6_pred <- predict(m6, test.data)
+head(m5_pred)
+head(m6_pred)
+head(test.data$HeartDisease)
+```
+
+```{r}
+rmse_m5 <- sqrt(mean((test.data$HeartDisease - m5_pred)^2))
+rmse_m6 <- sqrt(mean((test.data$HeartDisease - m6_pred)^2))
+rmse_m5
+rmse_m6
+```
+```{r trying to do leave one out cv????}
+library(caret)
+cv_method <- trainControl(method = "LOOCV")
+data_new$HeartDisease <- factor(data_new$HeartDisease, levels = c(0, 1))
+m7 <- train(HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + 
+           + Oldpeak + ST_Slope, 
+            data = data_new, method = "glm", trControl = cv_method)
+m8 <- train(HeartDisease ~ ., 
+            data = data_new, method = "glm", trControl = cv_method)
+print(m7)
+print(m8)
+```
+
 Citations: 
 Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed May 1, 2023.
 
@@ -436,3 +478,4 @@ Fedesoriano. (September 2021). Heart Failure Prediction Dataset. Retrieved [May 
 Lim, Y. C., Teo, S. G., & Poh, K. K. (2016). ST-segment changes with exercise stress. Singapore medical journal, 57(7), 347–353. https://doi.org/10.11622/smedj.2016116
 
 Velagaleti, R. S., & Vasan, R. S. (2007). Heart failure in the twenty-first century: is it a coronary artery disease or hypertension problem?. Cardiology clinics, 25(4), 487–v. https://doi.org/10.1016/j.ccl.2007.08.010
+
