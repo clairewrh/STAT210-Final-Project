@@ -1,5 +1,5 @@
 ---
-title: "Final Project: Cardiovascular Disease Prediction"
+title: "Final Project"
 author: Claire Wang & Xeno Hu
 output:
   knitr: 
@@ -43,8 +43,10 @@ library(patchwork)
 library(viridis)
 data = read_csv("heart2.csv")
 ```
-#### 1.2 EDA
-###### Missing Data & Complete Case Analysis
+## 1.2 EDA
+
+#### Missing Data & Complete Case Analysis
+
 As visualized in Figure 1, we found that 173 out of the 919 observations had a serum cholesterol level of 0 mm/dl. Since this is physiologically impossible, we decided to drop these observations.
 
 We decide to use complete case analysis because it is relatively easy to implement, and it can reduce bias in the estimates of the variable of interest when the missing data are missing completely at random or missing at random. Despite a 20% sample loss, we chose it over imputation due to the lack of accurate prediction for missing cholesterol levels.
@@ -55,22 +57,18 @@ data_new <- subset(data) %>%
   drop_na()
 ```
 
-###### CVD Distribution
+#### CVD Distribution
+
 As shown in Figure 2, the distribution of CVD appears to be relatively even between patients with/without the disease, suggesting that there is sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.
 
-###### Key Variables
-Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, sex could be an important predictor of CVDs because men are at a higher risk of developing CVDs than women (Maas, 2010). Thus, we will examine these key predictors in our EDA.
+##### Key Variables
 
-As shown in Figure 3, patients with CVD clearly have a higher median age. Due to this difference, we will consider age as one of our predictor variables.
-
-As shown in Figure 4, out of the patients in our datset, There is a nearly even split between men who do/do not have a CVD; however, females are much more likely to not have CVD (80% of them do not). Due to this apparent sex difference, we will consider including sex as a predictor variable as well. 
-
-Figure 5 shows that on average, patients diagnosed with CVD have higher resting blood pressure, which is consistent with the aforementioned literature findings.
-
-Figure 6 shows that over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina might be an important predictor for CVDs as well.
+Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, sex could be an important predictor of CVDs because men are at a higher risk of developing CVDs than women (Maas, 2010). Thus, we will examine these key predictors in our EDA. As shown in Figure 3, patients with CVD clearly have a higher median age. Due to this difference, we will consider age as one of our predictor variables. As shown in Figure 4, out of the patients in our datset, There is a nearly even split between men who do/do not have a CVD; however, females are much more likely to not have CVD (80% of them do not). Due to this apparent sex difference, we will consider including sex as a predictor variable as well. Figure 5 shows that on average, patients diagnosed with CVD have higher resting blood pressure, which is consistent with the aforementioned literature findings. Figure 6 shows that over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina might be an important predictor for CVDs as well.
 
 # 2. Methodology
+
 #### 2.1 Model Assumptions
+
 We use a logistic regression model because we are trying to predict the log-odds of getting a CVD, a binary response variable. The two assumptions that are important in logistic regression are independence and linearity.  
 
 -   **Independence**: It is reasonable to assume that independence is satisfied, as every patient's physiological conditions are independent of anyone else's. There could be cases of violations, such as if multiple observations are taken from individuals within the same family or household, there may be dependencies between those observations. However, for the most part, it is safe to assume that the assumption is satisfied.  
@@ -164,47 +162,7 @@ kable(list(roc_auc_m1, roc_auc_m2, roc_auc_m3))
 
 ``` 
 
-```{r attempting to color and overlap the 3 roc curves}
-library(ggplot2)
-
-# plot ROC curves for each model
-p1 <- m1_aug %>% 
-  roc_curve(
-    truth = as.factor(HeartDisease),
-    prob, 
-    event_level = "second"
-  ) %>% 
-  autoplot(aes = c(color = "Model 1")) +
-  theme(legend.position = "bottom")
-
-p2 <- m2_aug %>% 
-  roc_curve(
-    truth = as.factor(HeartDisease),
-    prob, 
-    event_level = "second"
-  ) %>% 
-  autoplot(aes = c(color = "Model 2"))
-
-p3 <- m3_aug %>% 
-  roc_curve(
-    truth = as.factor(HeartDisease),
-    prob, 
-    event_level = "second"
-  ) %>% 
-  autoplot(aes = c(color = "Model 3"))
-
-# combine plots and customize colors and legend
-ggplot() +
-  geom_line(data = p1$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 1")) +
-  geom_line(data = p2$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 2")) +
-  geom_line(data = p3$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 3")) +
-  scale_color_manual(name = "Models", values = c("Model 1" = "#E987BC", "Model 2" = "#FAD761", "Model 3" = "#82A8E7")) +
-  xlab("False Positive Rate (1 - Specificity)") +
-  ylab("True Positive Rate (Sensitivity)") +
-  ggtitle("ROC Curves for Heart Disease Prediction Models") +
-  theme_bw()
-```
-The ROC curves and similar AUC scores suggest that these three models have similar predictive performance. If all three models' performances are comparable, we would prefer to use the simplest model, Model 2, which only has 6 predictors.
+As displayed in the table above as well as Figure 8 below, the overlapping ROC curves and similar AUC scores suggest that these three models have similar predictive performance. If all three models' performances are comparable, we would prefer to use the simplest model, Model 2, which only has 6 predictors.
 
 #### 2.5 F-tests
 To further elucidate whether or not Model 2 (6 predictors) indeed performs similarly to Model 1 (8 predictors) and Model 3 (11 predictors), we will conduct 2 F-tests. Each test will compare the fit of a pair of nested models and allow us to determine whether the additional terms in the more complex model significantly improve its fit compared to the simpler model.  
@@ -298,8 +256,10 @@ ExerciseAngina: Whether the patient experienced exercise-induced angina, identif
 Oldpeak: The degree of ST depression induced by exercise relative to rest, measured in depression.  
 ST_Slope: The slope of the peak exercise ST segment, classified as Up (upsloping), Flat (flat), or Down (downsloping).  
 HeartDisease: The output class indicating the presence (1) or absence (0) of heart disease.  
+
 #### Figure 1: Missing Data
 ```{r figure 1 missing data}
+options(visdat.width = 200, visdat.height = 150)
 vis_miss(data)
 ```
 #### Figure 2: Distribution of Patients With/Without CVDs
@@ -309,7 +269,8 @@ ggplot(data = data_new, aes(x = HeartDisease)) +
   labs(title = "Distribution of Patients With/Without CVDs",
        subtitle = "0 = No CVD; 1 = CVD Present",
        x = "Presence of CVD",
-       y = "Count")
+       y = "Count") +
+    theme(plot.margin = unit(c(0.1, 0.1, 0.1, 0.1), "cm"))
 ```
 
 #### Figure 3: Box Plot for Age
@@ -320,7 +281,7 @@ ggplot(data_new, aes(x = Age, y = HeartDisease, group = HeartDisease)) +
        x = "Age",
        y = "Presence of CVD") +
   theme_bw() +
-  theme(plot.margin = unit(c(0.25, 0.25, 0.25, 0.25), "cm"))
+  theme(plot.margin = unit(c(0.1, 0.1, 0.1, 0.1), "cm"))
 
 ```
 
@@ -337,7 +298,7 @@ ggplot(data_props, aes(x = Sex, y = Prop, fill = factor(HeartDisease))) +
   labs(x = "Sex", y = "Proportion") +
   ggtitle("Sex vs. Presence of CVD") +
   theme_bw() +
-  theme(plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm"))
+  theme(plot.margin = unit(c(0.1, 0.1, 0.1, 0.1), "cm"))
 
 ```
 
@@ -348,7 +309,7 @@ ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) +
   labs(title = "Resting Blood Pressure vs. Presence of CVD",
        x = "Resting blood pressure (in mm Hg on admission to the hospital)",
        y = "Presence of CVD") +
-  theme_bw() + theme(plot.margin = unit(c(0.25, 0.25, 0.25, 0.25), "cm"))
+  theme_bw() + theme(plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm"))
 ```
 
 #### Figure 6: Proportion Plot for Exercise Angina
@@ -363,7 +324,7 @@ ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))
   labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
   ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
   theme_bw() +
-  theme(plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm"))
+  theme(plot.margin = unit(c(0.1, 0.1, 0.1, 0.1), "cm"))
 
 ```
 
@@ -390,4 +351,43 @@ emplogitplot1(HeartDisease ~ MaxHR,
 emplogitplot1(HeartDisease ~ Oldpeak,
               data = data_new,
               ngroups = 4, main = "Old Peak Linearity")
+```
+
+#### Figure 8: Overlapping ROC Curves for Models 1, 2, and 3
+```{r attempting to color and overlap the 3 roc curves}
+library(ggplot2)
+p1 <- m1_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot(aes = c(color = "Model 1")) +
+  theme(legend.position = "bottom")
+
+p2 <- m2_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot(aes = c(color = "Model 2"))
+
+p3 <- m3_aug %>% 
+  roc_curve(
+    truth = as.factor(HeartDisease),
+    prob, 
+    event_level = "second"
+  ) %>% 
+  autoplot(aes = c(color = "Model 3"))
+ggplot() +
+  geom_line(data = p1$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 1")) +
+  geom_line(data = p2$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 2")) +
+  geom_line(data = p3$data, aes(x = 1 - specificity, y = sensitivity, color = "Model 3")) +
+  scale_color_manual(name = "Models", values = c("Model 1" = "#E987BC", "Model 2" = "#FAD761", "Model 3" = "#82A8E7")) +
+  xlab("False Positive Rate (1 - Specificity)") +
+  ylab("True Positive Rate (Sensitivity)") +
+  ggtitle("ROC Curves for Heart Disease Prediction Models") +
+theme_bw() 
+ggsave("roc_curves.png", width = 5, height = 5)
 ```
