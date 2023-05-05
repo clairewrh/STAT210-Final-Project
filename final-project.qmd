@@ -1,5 +1,5 @@
 ---
-title: "Final Project"
+title: "Final Project: Cardiovascular Disease Prediction"
 author: Claire Wang & Xeno Hu
 output:
   knitr: 
@@ -16,12 +16,13 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.width = 6,
                       fig.asp = .618)
 ```
-### Introduction
+
+# 1. Introduction
 Cardiovascular diseases (CVDs) are the leading cause of death in the United States, with one person dying of the disease every 34 seconds (Centers for Disease Control and Prevention, 2022). Previous research has highlighted male gender, old age, obesity, abnormal cholesterol and fasting blood glucose as important predictors for CVDs, among many others (Damen et al., 2016).
 
 As CVD incidence continues to soar, the need for an effective predictive model cannot be overstated. In this report, we aim to construct a predictive model based on the "Heart Failure Prediction Dataset" by assessing the 11 possible predictors (including chest pain type, resting blood pressure, cholesterol levels, maximum heart rate, resting ECG measurements, etc.), and we explore any correlations that might exist between these various predictors and the outcome of CVD. Our research question is, which combination of these factors is most effective in predicting CVDs? In answering this question, we seek to enhance the scientific community's understanding of CVDs and their associated risk factors, ultimately contributing to better prevention, early identification, and management of this critical disease for both individuals and populations.
 
-## Data Description
+#### 1.1 Data Description
 This “Heart Failure Prediction Dataset” includes 11 characteristics that can be utilized to anticipate the potential risk of a CVD; it is called “Heart Failure Prediction Dataset” because it is not uncommon for a CVD to lead to heart failure (Velagaleti et al., 2007). The dataset was formed by merging five heart-related datasets (the Cleveland, Hungarian, Switzerland, Long Beach VA, and Stalog Heart Datasets) based on their 11 common features.This dataset is currently the largest available heart disease dataset for research purposes, consisting of 918 observations ("Kaggle Heart Failure Prediction Dataset, 2021). Amongst the predictors, Age, RestingBP, Cholesterol, MaxHR, and Oldpeak are continuous variables. Sex, ChestPainType, FastingBS, RestingECG, ExerciseAngina, ST_Slope, and HeartDisease are categorical variables. A detailed data dictionary can be found in the Appendix. 
 
 ```{r loading packages and data, messages = F, warning = F}
@@ -42,7 +43,8 @@ library(patchwork)
 library(viridis)
 data = read_csv("heart2.csv")
 ```
-## EDA
+#### 1.2 EDA
+###### Missing Data & Complete Case Analysis
 As visualized in Figure 1, we found that 173 out of the 919 observations had a serum cholesterol level of 0 mm/dl. Since this is physiologically impossible, we decided to drop these observations.
 
 We decide to use complete case analysis because it is relatively easy to implement, and it can reduce bias in the estimates of the variable of interest when the missing data are missing completely at random or missing at random. Despite a 20% sample loss, we chose it over imputation due to the lack of accurate prediction for missing cholesterol levels.
@@ -53,8 +55,10 @@ data_new <- subset(data) %>%
   drop_na()
 ```
 
+###### CVD Distribution
 As shown in Figure 2, the distribution of CVD appears to be relatively even between patients with/without the disease, suggesting that there is sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.
 
+###### Key Variables
 Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, sex could be an important predictor of CVDs because men are at a higher risk of developing CVDs than women (Maas, 2010). Thus, we will examine these key predictors in our EDA.
 
 As shown in Figure 3, patients with CVD clearly have a higher median age. Due to this difference, we will consider age as one of our predictor variables.
@@ -65,8 +69,16 @@ Figure 5 shows that on average, patients diagnosed with CVD have higher resting 
 
 Figure 6 shows that over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina might be an important predictor for CVDs as well.
 
-### Methodology
-We use a logistic regression model because we are trying to predict the log-odds of getting a CVD, a binary response variable. We plan to start with an all subset selection method because it allows for a comprehensive exploration of all possible combinations and predicts the "best" model based on Mallow's Cp values.
+# 2. Methodology
+#### 2.1 Model Assumptions
+We use a logistic regression model because we are trying to predict the log-odds of getting a CVD, a binary response variable. The two assumptions that are important in logistic regression are independence and linearity.  
+
+-   **Independence**: It is reasonable to assume that independence is satisfied, as every patient's physiological conditions are independent of anyone else's. There could be cases of violations, such as if multiple observations are taken from individuals within the same family or household, there may be dependencies between those observations. However, for the most part, it is safe to assume that the assumption is satisfied.  
+
+-   **Linearity**: The 5 continuous variables that are involved in all models are Age, RestingBP, Cholesterol, MaxHR, and Oldpeak. As shown in all five plots in Figure 6, the dots are randomly scattered across the empirical logits plots. Therefore, the linearity assumption is satisfied for the model.  
+
+#### 2.2 All Subset Selection
+ We plan to start with an all subset selection method because it allows for a comprehensive exploration of all possible combinations and predicts the "best" model based on Mallow's Cp values.
 
 ```{r all subset}
 m_all <- regsubsets(HeartDisease ~ .,
@@ -77,7 +89,6 @@ summary(m_all)$cp
 
 As shown in the table above, the model with the lowest Cp score is model 11. Model 11 includes 8 predictors: Age, Sex, ChestPainType, RestingBP, FastingBS, ExerciseAngina, Oldpeak, and ST_slope. 
 
-## Model attempts
 ```{r logistic regression using 8 predictors}
 m1 <- glm(HeartDisease ~ Age + Sex + RestingBP + FastingBS + ChestPainType +
             ExerciseAngina + Oldpeak + ST_Slope, 
@@ -89,6 +100,7 @@ m1_aug <- augment(m1)
 ```
 To validate our predictor selection approach, we also performed stepwise selection in both directions on the dataset, yielding the same 8 predictors as the all subset selection method. Thus, these 8 predictors were deemed meaningful and subsequently used to fit a logistic model, which we will call Model 1.
 
+#### 2.3 p-value elimination
 Using a $\alpha = 0.05$ significance level, the p-values of "RestingBP" and "FastingBS" are 0.084 and 0.32, respectively, which is larger than 0.05, suggesting the these 2 predictors might not be statistically significant. Hence, we considered a second logistic model, Model 2, with the remaining 6 predictors.
 
 ```{r logistic regression using 6 predictors}
@@ -110,6 +122,7 @@ tidy_m3 <- tidy(m3)
 kable(tidy_m3)
 m3_aug <- augment(m3)
 ```
+#### 2.4 Performance Evaluation: ROC & AUC
 We have chosen to evaluate the performance of the models using the ROC
 (Receiver Operating Characteristic) curve and the AUC score (area under the ROC curve). In the ROC curves, the x-axis plots the false positive rate (specificity), and the y-axis plots the true positive rate (sensitivity). The curves basically illustrate the trade off between the specificity and the sensitivity. As we can see, all of the models produced ROC curves that are closer to the top left corner, indicating relatively high true positive rate and low false positive rate. The AUC (area under the ROC curve) is a powerful single metric to summarize the performance of the classifying model. The closer to the AUC is to 1, the better the model is able to distinguish between positive and negative classes, as the AUC is basically the probability that the model will rank a randomly chosen positive instance higher than a randomly chosen negative instance.  
 
@@ -193,6 +206,7 @@ ggplot() +
 ```
 The ROC curves and similar AUC scores suggest that these three models have similar predictive performance. If all three models' performances are comparable, we would prefer to use the simplest model, Model 2, which only has 6 predictors.
 
+#### 2.5 F-tests
 To further elucidate whether or not Model 2 (6 predictors) indeed performs similarly to Model 1 (8 predictors) and Model 3 (11 predictors), we will conduct 2 F-tests. Each test will compare the fit of a pair of nested models and allow us to determine whether the additional terms in the more complex model significantly improve its fit compared to the simpler model.  
 
 ```{r nested models}
@@ -203,6 +217,7 @@ kable(anova_table2)
 ```
 The p-values are 0.100 and 0.306 (>0.05 significance level) when comparing Model 2 to Model 1, and Model 2 to Model 3, respectively. This indicates that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the eliminated terms (Cholesterol, RestingECG, MaxHR, RestingBP, and FastingBS) are zero. Therefore, there is not enough evidence to conclude that either Model 3 or Model 1 are significantly better than Model 2. We would prefer to use the simpler Model 2 (that we came up with through all subset selection and p-value elimination) over the more complex Model 3 (includes all of the predictors), as it has fewer variables and possibly clearer interpretations.
 
+#### 2.6 Simple Holdout Method
 Finally, we decided to use the simple holdout cross validation method, in which 80% of our dataset was used to train the model, and 20% was used to test its performance, in order to compare the performances of Model 2 and Model 3. The resulting AUC scores are 0.907 and 0.903 for Models 2 and 3, respectively, pointing to the fact that Model 2 could have better predictive power than Model 3, affirming that our model selection was successful, to a certain extent. 
 
 ```{r holdout method}
@@ -229,14 +244,7 @@ auc_m3_train <- roc(test.data$HeartDisease, m3_train_pred)$auc
 print(auc_m3_train)
 ```
 
-## Assumptions
-The two assumptions that are important in logistic regression are independence and linearity.  
-
-Independence: It is reasonable to assume that independence is satisfied, as every patient's physiological conditions are independent of anyone else's. There could be cases of violations, such as if multiple observations are taken from individuals within the same family or household, there may be dependencies between those observations. However, for the most part, it is safe to assume that the assumption is satisfied.  
-
-Linearity: The 5 continuous variables that are involved in all models are Age, RestingBP, Cholesterol, MaxHR, and Oldpeak. As shown in all five plots in Figure 6, the dots are randomly scattered across the empirical logits plots. Therefore, the linearity assumption is satisfied for the model.  
-
-### Results
+# 3.Results
 
 The equation for our final model is:  
 log(odds) = -3.60 + 0.039 (Age) + 1.792 (Sex Male) - 1.656 (Atypical Anginal Chest Pain) - 1.579 (NonAnginal Chest Pain) -1.511 (Typical Anginal Chest Pain) + 0.935(Exercise Angina) + 0.421(OldPeak) + 1.239(St_SlopeFlat) -1.275(ST_SlopeUp)
@@ -246,18 +254,16 @@ After evaluating and comparing the model performances using the ROC curve, the A
 The intercept for our model represents a newborn female with no chest pain, no exercise-induced angina, no ST depression (0 degrees) on their ECG upon exercise that remains flat throughout exercise. The intercept value corresponds to log-odds of having a CVD vs. not having a CVD being 0.027 ($e^{-3.6}$) in this population.
 Consistent with existing scientific literature, we see in our chosen model that as people get older, their log-odds of developing a CVD is expected to increase by $e^{0.039=1.04}$ with every passing year. We also found that if a patient has exercise angina, their likelihood of having a CVD is $e^{0.935}=2.55$ times higher than that of a patient who doesn’t have exercise angina, when holding all other variables constant. This makes sense because exercise angina has to do with discomfort when heart muscle receives insufficient blood and oxygen during physical activity, which is mostly due to narrowing of arteries and can lead to CVDs and heart failure. An unexpected discovery from our model is that people who are asymptomatic for chest pain are predicted to have the highest log-odds of developing CVD, while controlling for all other variables. This could be due to the fact that the duration of patients' CVD diagnosis is unknown, and some patients may no longer experience chest pain due to treatment, despite still being diagnosed with CVD.
 
-#### Discussion
-Our model identified the main predictors for cardiovascular disease in this dataset and quantified their impact on the likelihood of having the disease. We found that traditional factors such as cholesterol and blood pressure lose their predictive power when richer data, such as electrocardiogram results, presence of certain types of chest pain, and exercise tests, is available. 
+## Discussion
+Our model identified the main predictors for cardiovascular disease in this dataset and quantified their impact on the likelihood of having the disease. We found that traditional factors such as cholesterol and blood pressure lose their predictive power when richer data, such as electrocardiogram results, presence of certain types of chest pain, and exercise tests, is available. It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.
 
 After identifying 172 data points with zero cholesterol levels, we opted to exclude them from our study. Nonetheless, we noticed that these eliminated observations had a greater probability of presenting CVD than the average in the complete dataset. Therefore, the exclusion of these data points may have decreased the reliability of our analysis and introduced bias into our results. The validity of our study might be compromised due to the exclusion of this relevant information.
 
-Our study is limited by the non-representative sample, which only includes individuals admitted to hospitals for heart disease-related conditions. Therefore, our findings cannot be generalized to the broader population. In order to develop generalizable predictive models for CVDs, it would make more sense to expand the sample size and collect data from the entire general population to facilitate early detection and prompt timely treatment.
+Our study is also limited by the non-representative sample, which only includes individuals admitted to hospitals for heart disease-related conditions. Therefore, our findings cannot be generalized to the broader population. In order to develop generalizable predictive models for CVDs, it would make more sense to expand the sample size and collect data from the entire general population to facilitate early detection and prompt timely treatment.
 
 An idea for improvement on our current model is adding interaction terms. We had a couple of ideas, including age & sex, exercise angina & old peak, and chest pain type & sex. These options were chosen after reading through current literature, which suggested that women generally having a later onset of heart disease compared to men (Giardina, 2000), there may be differences in the way men and women experience chest pain during a heart attack (Granot, 2004), and that exercise-induced angina and ST depression during exercise are both markers of ischemia and may therefore be related to each other in predicting heart disease risk (Bekkouche, 2013).
 
-It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.
-
-### References
+## References
 Bekkouche, N. S., Wawrzyniak, A. J., Whittaker, K. S., Ketterer, M. W., & Krantz, D. S. (2013). Psychological and physiological predictors of angina during exercise-induced ischemia in patients with coronary artery disease. Psychosomatic medicine, 75(4), 413–421. https://doi.org/10.1097/PSY.0b013e31828c4cb4
 
 Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed May 1, 2023.
@@ -278,8 +284,8 @@ Maas, A. H., & Appelman, Y. E. (2010). Gender differences in coronary heart dise
 
 Velagaleti, R. S., & Vasan, R. S. (2007). Heart failure in the twenty-first century: is it a coronary artery disease or hypertension problem?. Cardiology clinics, 25(4), 487–v. https://doi.org/10.1016/j.ccl.2007.08.010
 
-### Appendix
-## Data Dictionary
+## Appendix
+#### Data Dictionary
 Age: The age of the patient in years.  
 Sex: The gender of the patient, identified as Male (M) or Female (F).  
 ChestPainType: The type of chest pain experienced by the patient, classified as Typical Angina (TA), Atypical Angina (ATA), Non-Anginal Pain (NAP), or Asymptomatic (ASY).  
@@ -292,11 +298,11 @@ ExerciseAngina: Whether the patient experienced exercise-induced angina, identif
 Oldpeak: The degree of ST depression induced by exercise relative to rest, measured in depression.  
 ST_Slope: The slope of the peak exercise ST segment, classified as Up (upsloping), Flat (flat), or Down (downsloping).  
 HeartDisease: The output class indicating the presence (1) or absence (0) of heart disease.  
-## Figure 1: Missing Data
+#### Figure 1: Missing Data
 ```{r figure 1 missing data}
 vis_miss(data)
 ```
-## Figure 2: Distribution of Patients With/Without CVDs
+#### Figure 2: Distribution of Patients With/Without CVDs
 ```{r cvd-distribution figure 2}
 ggplot(data = data_new, aes(x = HeartDisease)) +
   geom_histogram(binwidth = 0.5, fill = "#BCDEBF") + 
@@ -306,42 +312,46 @@ ggplot(data = data_new, aes(x = HeartDisease)) +
        y = "Count")
 ```
 
-#Figure 3: Box Plot for Age
+#### Figure 3: Box Plot for Age
 ```{r figure 3 box plot for age }
 ggplot(data_new, aes(x = Age, y = HeartDisease, group = HeartDisease)) + 
   geom_boxplot() +
   labs(title = "Age vs. Presence of CVD",
        x = "Age",
        y = "Presence of CVD") +
-  theme_bw()
+  theme_bw() +
+  theme(plot.margin = unit(c(0.25, 0.25, 0.25, 0.25), "cm"))
+
 ```
 
-## Figure 4: Proportion Plot for Sex
+#### Figure 4: Proportion Plot for Sex
 ```{r proportion plot for sex figure 4}
 data_props <- data_new %>% 
   group_by(Sex, HeartDisease) %>%
   summarise(Freq = n()) %>%
   mutate(Prop = Freq / sum(Freq))
+
 ggplot(data_props, aes(x = Sex, y = Prop, fill = factor(HeartDisease))) +
   geom_col(position = "dodge") +
   scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
   labs(x = "Sex", y = "Proportion") +
   ggtitle("Sex vs. Presence of CVD") +
-  theme_bw()
+  theme_bw() +
+  theme(plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm"))
 
 ```
 
-## Figure 5: Box Plot for Resting Blood Pressure
+#### Figure 5: Box Plot for Resting Blood Pressure
 ```{r figure 5 box plot for resting blood pressure}
 ggplot(data_new, aes(x = RestingBP, y = HeartDisease, group = HeartDisease)) + 
   geom_boxplot() +
   labs(title = "Resting Blood Pressure vs. Presence of CVD",
        x = "Resting blood pressure (in mm Hg on admission to the hospital)",
        y = "Presence of CVD") +
-  theme_bw()
+  theme_bw() + theme(plot.margin = unit(c(0.25, 0.25, 0.25, 0.25), "cm"))
 ```
 
-## Figure 6: Proportion Plot for Exercise Angina
+#### Figure 6: Proportion Plot for Exercise Angina
 ```{r figure 6 proportion plot for exercise angina}
 data_prop <- data_new %>% 
   group_by(ExerciseAngina, HeartDisease) %>%
@@ -352,31 +362,32 @@ ggplot(data_prop, aes(x = ExerciseAngina, y = Prop, fill = factor(HeartDisease))
   scale_fill_manual(values = c("#C0E6C8", "#D9C0EA"), labels = c("No Heart Disease", "Heart Disease")) +
   labs(x = "Presence of Exercise-induced Angina", y = "Proportion") +
   ggtitle("Presence of Exercise-induced Angina vs. Presence of CVD") +
-  theme_bw()
+  theme_bw() +
+  theme(plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm"))
 
 ```
 
-## Figure 7: Linearity Assumption Diagnostic Plots for Continuous Variables
+#### Figure 7: Linearity Assumption Diagnostic Plots for Continuous Variables
 ```{r figure 7 assumptions}
 library(arm)
 par(mfrow=c(1,3))
 emplogitplot1(HeartDisease ~ Age,
               data = data_new,
-              ngroups = 10, main = "Plot for Age")
+              ngroups = 10, main = "Age Linearity ")
 
 emplogitplot1(HeartDisease ~ RestingBP,
               data = data_new,
-              ngroups = 4, main = "Plot for Resting BP")
+              ngroups = 4, main = "Resting BP Linearity")
 
 emplogitplot1(HeartDisease ~ Cholesterol,
               data = data_new,
-              ngroups = 10, main = "Plot for Cholesterol")
+              ngroups = 10, main = "Cholesterol Linearity")
 
 emplogitplot1(HeartDisease ~ MaxHR,
               data = data_new,
-              ngroups = 10, main = "Plot for Max Heart Rate")
+              ngroups = 10, main = "Max Heart Rate Linearity")
 
 emplogitplot1(HeartDisease ~ Oldpeak,
               data = data_new,
-              ngroups = 4, main = "Plot for Old Peak")
+              ngroups = 4, main = "Old Peak Linearity")
 ```
