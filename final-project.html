@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Claire Wang &amp; Xeno Hu">
 
 <title>Final Project</title>
 <style>
@@ -20,69 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -139,700 +77,542 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="data-description">Data Description</h2>
 <p>This “Heart Failure Prediction Dataset” includes 11 characteristics that can be utilized to anticipate the potential risk of a CVD; it is called “Heart Failure Prediction Dataset” because it is not uncommon for a CVD to lead to heart failure (Velagaleti et al., 2007). The dataset was formed by merging five heart-related datasets (the Cleveland, Hungarian, Switzerland, Long Beach VA, and Stalog Heart Datasets) based on their 11 common features.This dataset is currently the largest available heart disease dataset for research purposes, consisting of 918 observations.</p>
 <p>Source: https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction</p>
-<p>Data Dictionary: Age: The age of the patient in years. Sex: The gender of the patient, identified as Male (M) or Female (F). ChestPainType: The type of chest pain experienced by the patient, classified as Typical Angina (TA), Atypical Angina (ATA), Non-Anginal Pain (NAP), or Asymptomatic (ASY). RestingBP: The resting blood pressure of the patient in mm Hg. Cholesterol: The level of serum cholesterol in mm/dL. FastingBS: The level of fasting blood sugar, indicated as 1 if FastingBS &gt; 120 mg/dL and 0 otherwise. RestingECG: The results of the patient’s resting electrocardiogram, classified as Normal, having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of &gt; 0.05 mV), or showing probable or definite left ventricular hypertrophy by Estes’ criteria (LVH). MaxHR: The maximum heart rate achieved by the patient, measured in beats per minute (bpm) and ranging from 60 to 202. ExerciseAngina: Whether the patient experienced exercise-induced angina, identified as Yes (Y) or No (N). Oldpeak: The degree of ST depression induced by exercise relative to rest, measured in depression. ST_Slope: The slope of the peak exercise ST segment, classified as Up (upsloping), Flat (flat), or Down (downsloping). HeartDisease: The output class indicating the presence (1) or absence (0) of heart disease.</p>
-<p>Age, RestingBP, Cholesterol, MaxHR, and Oldpeak are continuous variables. Sex, ChestPainType, FastingBS, RestingECG, ExerciseAngina, ST_Slope, and HeartDisease are categorical variables.</p>
+</section>
+<section id="data-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="data-dictionary">Data Dictionary</h2>
+<p>Age, RestingBP, Cholesterol, MaxHR, and Oldpeak are continuous variables. Sex, ChestPainType, FastingBS, RestingECG, ExerciseAngina, ST_Slope, and HeartDisease are categorical variables.<br>
+Age: The age of the patient in years.<br>
+Sex: The gender of the patient, identified as Male (M) or Female (F).<br>
+ChestPainType: The type of chest pain experienced by the patient, classified as Typical Angina (TA), Atypical Angina (ATA), Non-Anginal Pain (NAP), or Asymptomatic (ASY).<br>
+RestingBP: The resting blood pressure of the patient in mm Hg.<br>
+Cholesterol: The level of serum cholesterol in mm/dL.<br>
+FastingBS: The level of fasting blood sugar, indicated as 1 if FastingBS &gt; 120 mg/dL and 0 otherwise.<br>
+RestingECG: The results of the patient’s resting electrocardiogram, classified as Normal, having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of &gt; 0.05 mV), or showing probable or definite left ventricular hypertrophy by Estes’ criteria (LVH).<br>
+MaxHR: The maximum heart rate achieved by the patient, measured in beats per minute (bpm) and ranging from 60 to 202.<br>
+ExerciseAngina: Whether the patient experienced exercise-induced angina, identified as Yes (Y) or No (N).<br>
+Oldpeak: The degree of ST depression induced by exercise relative to rest, measured in depression.<br>
+ST_Slope: The slope of the peak exercise ST segment, classified as Up (upsloping), Flat (flat), or Down (downsloping).<br>
+HeartDisease: The output class indicating the presence (1) or absence (0) of heart disease.</p>
 <div class="cell" data-messages="false">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.0      ✔ purrr   1.0.0 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-✔ readr   2.1.3      ✔ forcats 0.5.2 
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.0.0 ──
-✔ broom        1.0.4     ✔ rsample      1.1.1
-✔ dials        1.1.0     ✔ tune         1.0.1
-✔ infer        1.0.4     ✔ workflows    1.1.2
-✔ modeldata    1.0.1     ✔ workflowsets 1.0.0
-✔ parsnip      1.0.3     ✔ yardstick    1.1.0
-✔ recipes      1.0.3     
-── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
-✖ scales::discard() masks purrr::discard()
-✖ dplyr::filter()   masks stats::filter()
-✖ recipes::fixed()  masks stringr::fixed()
-✖ dplyr::lag()      masks stats::lag()
-✖ yardstick::spec() masks readr::spec()
-✖ recipes::step()   masks stats::step()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: Matrix
 
-Attaching package: 'Matrix'
-
-The following objects are masked from 'package:tidyr':
-
-    expand, pack, unpack
-
-Loaded glmnet 4.1-6</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'MASS'
-
-The following object is masked from 'package:dplyr':
-
-    select</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaps)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(UpSetR)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Type 'citation("pROC")' for a citation.
-
-Attaching package: 'pROC'
-
-The following objects are masked from 'package:stats':
-
-    cov, smooth, var</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Stat2Data)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"heart2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 918 Columns: 12
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (5): Sex, ChestPainType, RestingECG, ExerciseAngina, ST_Slope
-dbl (7): Age, RestingBP, Cholesterol, FastingBS, MaxHR, Oldpeak, HeartDisease
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 </div>
 <p>Source: https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset</p>
 </section>
 <section id="eda" class="level2">
 <h2 class="anchored" data-anchor-id="eda">EDA</h2>
+<p>As visualized in Figure 1, we found that 173 out of the 919 observations had a serum cholesterol level of 0 mm/dl. Since this is physiologically impossible, we decided to drop these observations.</p>
+<p>We decide to use complete case analysis because it is relatively easy to implement, and it can reduce bias in the estimates of the variable of interest when the missing data are missing completely at random or missing at random. Although a complete case analysis in this case would lead to an approximately 20% sample loss, we believe that it is better than imputation because our current knowledge does not allow for accurate prediction of cholesterol levels of these observations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/check%20missingness-1.png" class="img-fluid" width="672"></p>
+
 </div>
-</div>
-<p>At first glance, there seems to be no missingness in the dataset. However, upon closer examination, we discovered that 173 out of the 919 observations had a serum cholesterol level of 0 mm/dl. Since this is physiologically impossible, we concluded that these observations were actually missing cholesterol data. This meant that our dataset had missing values after all.</p>
-<p>We decide to use complete case analysis because it is relatively easy to implement, and it can reduce bias in the estimates of the variable of interest when the missing data are missing completely at random or missing at random. Although a complete case analysis in this case would lead to an approximately 20% sample loss, we believe that it is better than imputation because our current knowledge does not allow accurate prediction of cholesterol levels of these observations.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Cholesterol [data<span class="sc">$</span>Cholesterol <span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data_new <span class="ot">&lt;-</span> <span class="fu">subset</span>(data) <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The distribution of CVD in our data appears to be relatively evenly distributed between patients with and without the disease. This suggests that there are sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_new, <span class="fu">aes</span>(<span class="at">x =</span> HeartDisease)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>, <span class="at">fill =</span> <span class="st">"#BCDEBF"</span>) <span class="sc">+</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Patients With/Without CVDs"</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"0 = No CVD; 1 = CVD Present"</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Presence of CVD"</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/cvd-distribution-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, we suppose that sex should be an important predictor of CVDs because men are at a higher risk of developing CVDs than women (Maas, 2010). This could be due to hormonal and physiological differences as well as lifestyle factors such as smoking and high alcohol consumption in men, on average. As such, we will examine these predictors mentioned above in our EDA. However, we will still consider all of the remaining variables in when constructing our own model in the later sections.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_new, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> HeartDisease, <span class="at">group =</span> HeartDisease)) <span class="sc">+</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age vs. Presence of CVD"</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Presence of CVD"</span>) <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/box%20plot%20for%20age-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_props <span class="ot">&lt;-</span> data_new <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sex, HeartDisease) <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Freq =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Prop =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by 'Sex'. You can override using the `.groups`
-argument.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_props, <span class="fu">aes</span>(<span class="at">x =</span> Sex, <span class="at">y =</span> Prop, <span class="at">fill =</span> <span class="fu">factor</span>(HeartDisease))) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#C0E6C8"</span>, <span class="st">"#D9C0EA"</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No Heart Disease"</span>, <span class="st">"Heart Disease"</span>)) <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Sex"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Sex vs. Presence of CVD"</span>) <span class="sc">+</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/proportion%20plot%20for%20sex-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>There seems to be a sex difference in the prevalence of CVDs. There is a nearly even split between men who do/do not have a CVD; about 45% of the men do not have a CVD, while about 55% of them do. However, just over 20% of the women in this dataset have a CVD.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_new, <span class="fu">aes</span>(<span class="at">x =</span> RestingBP, <span class="at">y =</span> HeartDisease, <span class="at">group =</span> HeartDisease)) <span class="sc">+</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Resting Blood Pressure vs. Presence of CVD"</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Resting blood pressure (in mm Hg on admission to the hospital)"</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Presence of CVD"</span>) <span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/box%20plot%20for%20resting%20blood%20pressure-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>It seems that patients diagnosed with CVD have higher resting blood pressure, which is consistent with the aforementioned literature findings.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_prop <span class="ot">&lt;-</span> data_new <span class="sc">%&gt;%</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ExerciseAngina, HeartDisease) <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Freq =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Prop =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by 'ExerciseAngina'. You can override using
-the `.groups` argument.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_prop, <span class="fu">aes</span>(<span class="at">x =</span> ExerciseAngina, <span class="at">y =</span> Prop, <span class="at">fill =</span> <span class="fu">factor</span>(HeartDisease))) <span class="sc">+</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#C0E6C8"</span>, <span class="st">"#D9C0EA"</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No Heart Disease"</span>, <span class="st">"Heart Disease"</span>)) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Presence of Exercise-induced Angina"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Presence of Exercise-induced Angina vs. Presence of CVD"</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/proportion%20plot%20for%20exercise%20angina-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina might be an important predictor for CVDs.</p>
+<p>As shown in Figure 2, the distribution of CVD appears to be relatively even between patients with/without the disease, suggesting that there is sufficient data available for both categories of the response variable to perform further statistical analysis and develop a predictive model.</p>
+<p>Previous research has identified age, resting blood pressure, serum cholesterol, the presence of exercise-induced angina, and maximum heart rate as indicators of the presence of heart disease (Hajar, 2017). In addition, we suppose that sex should be an important predictor of CVDs because men are at a higher risk of developing CVDs than women (Maas, 2010). Thus, we will examine these predictors in our EDA, but still consider all of the remaining variables in when constructing our own model in the later sections.</p>
+<p>As shown in Figure 3, patients with CVD clearly have a higher median age. Due to this difference, we will consider age as one of our predictor variables.</p>
+<p>As shown in Figure 4, out of the patients in our datset, There is a nearly even split between men who do/do not have a CVD; about 45% of the men do not have a CVD, while about 55% of them do. However, females are much more likely to not have CVD (80% of them do not). Due to this apparent sex difference, we will consider including sex as a predictor variable as well.</p>
+<p>Figure 5 shows that on average, patients diagnosed with CVD have higher resting blood pressure, which is consistent with the aforementioned literature findings.</p>
+<p>Figure 6 shows that over 80% of patients with exercise-induced angina have CVD, whereas only around 25% of patients without exercise-induced angina have CVD. Therefore, exercise-induced angina might be an important predictor for CVDs as well.</p>
 </section>
 <section id="methodology" class="level2">
 <h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
-<p>We use a logistic regression model because we are trying to predict the log-odds of getting a CVD, a binary response variable. Since all predictors are associated with HeartDisease based on literature as established in the EDA, and the there are only 11 predictors in the dataset, we plan to start with an all subset selection method. An all subset selection takes all possible combinations of variables and predicts combination of variables leads to the “best” result. The results are evaluated based on Mallow’s Cp values. If adding new parameters doesn’t meaningfully decrease squared errors, the overall Cp score will be higher, hence the model with the lowest Cp score through an all subset selection will be chosen as the “best” model.</p>
+<p>We use a logistic regression model because we are trying to predict the log-odds of getting a CVD, a binary response variable. We plan to start with an all subset selection method with the 11 predictors in the dataset. An all subset selection takes all possible combinations of variables and predicts combination of variables leads to the “best” result. The results are evaluated based on Mallow’s Cp values. If adding new parameters doesn’t meaningfully decrease squared errors, the overall Cp score will be higher, hence the model with the lowest Cp score through an all subset selection will be chosen as the “best” model.</p>
 </section>
 <section id="all-subset-selection" class="level2">
 <h2 class="anchored" data-anchor-id="all-subset-selection">All subset selection</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>m_all <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(HeartDisease <span class="sc">~</span> .,</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> data_new,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nbest =</span> <span class="dv">1</span>, <span class="at">nvmax =</span> <span class="dv">15</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Subset selection object
-Call: regsubsets.formula(HeartDisease ~ ., data = data_new, nbest = 1, 
-    nvmax = 15)
-15 Variables  (and intercept)
-                 Forced in Forced out
-Age                  FALSE      FALSE
-SexM                 FALSE      FALSE
-ChestPainTypeATA     FALSE      FALSE
-ChestPainTypeNAP     FALSE      FALSE
-ChestPainTypeTA      FALSE      FALSE
-RestingBP            FALSE      FALSE
-Cholesterol          FALSE      FALSE
-FastingBS            FALSE      FALSE
-RestingECGNormal     FALSE      FALSE
-RestingECGST         FALSE      FALSE
-MaxHR                FALSE      FALSE
-ExerciseAnginaY      FALSE      FALSE
-Oldpeak              FALSE      FALSE
-ST_SlopeFlat         FALSE      FALSE
-ST_SlopeUp           FALSE      FALSE
-1 subsets of each size up to 15
-Selection Algorithm: exhaustive
-          Age SexM ChestPainTypeATA ChestPainTypeNAP ChestPainTypeTA RestingBP
-1  ( 1 )  " " " "  " "              " "              " "             " "      
-2  ( 1 )  " " " "  " "              " "              " "             " "      
-3  ( 1 )  " " "*"  " "              " "              " "             " "      
-4  ( 1 )  " " "*"  " "              "*"              " "             " "      
-5  ( 1 )  " " "*"  "*"              "*"              " "             " "      
-6  ( 1 )  " " "*"  "*"              "*"              "*"             " "      
-7  ( 1 )  "*" "*"  "*"              "*"              "*"             " "      
-8  ( 1 )  "*" "*"  "*"              "*"              "*"             " "      
-9  ( 1 )  "*" "*"  "*"              "*"              "*"             " "      
-10  ( 1 ) "*" "*"  "*"              "*"              "*"             " "      
-11  ( 1 ) "*" "*"  "*"              "*"              "*"             "*"      
-12  ( 1 ) "*" "*"  "*"              "*"              "*"             "*"      
-13  ( 1 ) "*" "*"  "*"              "*"              "*"             "*"      
-14  ( 1 ) "*" "*"  "*"              "*"              "*"             "*"      
-15  ( 1 ) "*" "*"  "*"              "*"              "*"             "*"      
-          Cholesterol FastingBS RestingECGNormal RestingECGST MaxHR
-1  ( 1 )  " "         " "       " "              " "          " "  
-2  ( 1 )  " "         " "       " "              " "          " "  
-3  ( 1 )  " "         " "       " "              " "          " "  
-4  ( 1 )  " "         " "       " "              " "          " "  
-5  ( 1 )  " "         " "       " "              " "          " "  
-6  ( 1 )  " "         " "       " "              " "          " "  
-7  ( 1 )  " "         " "       " "              " "          " "  
-8  ( 1 )  " "         " "       " "              " "          " "  
-9  ( 1 )  " "         " "       " "              " "          " "  
-10  ( 1 ) " "         "*"       " "              " "          " "  
-11  ( 1 ) " "         "*"       " "              " "          " "  
-12  ( 1 ) "*"         "*"       " "              " "          " "  
-13  ( 1 ) "*"         "*"       "*"              " "          " "  
-14  ( 1 ) "*"         "*"       "*"              " "          "*"  
-15  ( 1 ) "*"         "*"       "*"              "*"          "*"  
-          ExerciseAnginaY Oldpeak ST_SlopeFlat ST_SlopeUp
-1  ( 1 )  " "             " "     " "          "*"       
-2  ( 1 )  "*"             " "     " "          "*"       
-3  ( 1 )  "*"             " "     " "          "*"       
-4  ( 1 )  "*"             " "     " "          "*"       
-5  ( 1 )  "*"             " "     " "          "*"       
-6  ( 1 )  "*"             " "     " "          "*"       
-7  ( 1 )  "*"             " "     " "          "*"       
-8  ( 1 )  "*"             "*"     " "          "*"       
-9  ( 1 )  "*"             "*"     "*"          "*"       
-10  ( 1 ) "*"             "*"     "*"          "*"       
-11  ( 1 ) "*"             "*"     "*"          "*"       
-12  ( 1 ) "*"             "*"     "*"          "*"       
-13  ( 1 ) "*"             "*"     "*"          "*"       
-14  ( 1 ) "*"             "*"     "*"          "*"       
-15  ( 1 ) "*"             "*"     "*"          "*"       </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_all)<span class="sc">$</span>cp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 255.73724 142.24583  93.94848  78.45767  42.99584  33.63583  23.26726
  [8]  17.63977  11.64749  10.81918  10.67854  10.93762  12.19263  14.09560
 [15]  16.00000</code></pre>
 </div>
 </div>
-<p>The model with the lowest Cp score included 8 predictors: Age, Sex, ChestPainType, RestingBP, FastingBS, ExerciseAngina, Oldpeak, ST_slope. After applying stepwise selection in both directions to the dataset, the same 8 predictors were selected. This confirms that the 8 predictors selected by the all subset selection approach are meaningful.</p>
-<p>did not choose: cholesterol, resting ecg, max hr (need to maybe say why didn’t include, because EDA mean is reversed? Maybe because some people with heart disease took medicine or are older has lower maxHR, while others have higher HR as expected)</p>
-</section>
-<section id="all-stepwise" class="level2">
-<h2 class="anchored" data-anchor-id="all-stepwise">All stepwise</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>m_none <span class="ot">&lt;-</span> <span class="fu">lm</span>(HeartDisease <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> data_new)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>m_all <span class="ot">&lt;-</span> <span class="fu">lm</span>(HeartDisease <span class="sc">~</span> ., </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> data)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">stepAIC</span>(m_none, </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower =</span> m_none, <span class="at">upper =</span> m_all),</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> data, <span class="at">direction =</span> <span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Start:  AIC=-1033.73
-HeartDisease ~ 1
-
-                 Df Sum of Sq    RSS     AIC
-+ ST_Slope        2    79.619 106.49 -1446.2
-+ ExerciseAngina  1    56.675 129.44 -1302.6
-+ ChestPainType   3    53.686 132.43 -1281.6
-+ Oldpeak         1    45.731 140.38 -1242.1
-+ MaxHR           1    26.482 159.63 -1146.2
-+ Age             1    16.596 169.52 -1101.4
-+ Sex             1    15.953 170.16 -1098.6
-+ RestingBP       1     5.586 180.53 -1054.5
-+ FastingBS       1     4.800 181.31 -1051.2
-+ RestingECG      2     3.448 182.66 -1043.7
-+ Cholesterol     1     2.008 184.10 -1039.8
-&lt;none&gt;                        186.11 -1033.7
-
-Step:  AIC=-1446.19
-HeartDisease ~ ST_Slope
-
-                 Df Sum of Sq     RSS     AIC
-+ ChestPainType   3    15.448  91.046 -1557.1
-+ ExerciseAngina  1    12.384  94.110 -1536.4
-+ Sex             1     7.928  98.566 -1501.9
-+ Oldpeak         1     5.821 100.673 -1486.1
-+ MaxHR           1     3.503 102.991 -1469.1
-+ Age             1     3.035 103.459 -1465.8
-+ RestingBP       1     1.593 104.901 -1455.4
-+ FastingBS       1     0.817 105.677 -1449.9
-+ RestingECG      2     0.904 105.590 -1448.5
-&lt;none&gt;                        106.494 -1446.2
-+ Cholesterol     1     0.278 106.216 -1446.1
-- ST_Slope        2    79.619 186.113 -1033.7
-
-Step:  AIC=-1557.1
-HeartDisease ~ ST_Slope + ChestPainType
-
-                 Df Sum of Sq     RSS     AIC
-+ Sex             1     5.277  85.769 -1599.7
-+ ExerciseAngina  1     5.237  85.809 -1599.3
-+ Oldpeak         1     3.089  87.958 -1580.8
-+ Age             1     1.888  89.159 -1570.7
-+ RestingBP       1     1.271  89.775 -1565.6
-+ FastingBS       1     0.854  90.192 -1562.1
-+ MaxHR           1     0.803  90.243 -1561.7
-&lt;none&gt;                         91.046 -1557.1
-+ RestingECG      2     0.402  90.644 -1556.4
-+ Cholesterol     1     0.098  90.948 -1555.9
-- ChestPainType   3    15.448 106.494 -1446.2
-- ST_Slope        2    41.380 132.427 -1281.6
-
-Step:  AIC=-1599.65
-HeartDisease ~ ST_Slope + ChestPainType + Sex
-
-                 Df Sum of Sq     RSS     AIC
-+ ExerciseAngina  1     4.229  81.541 -1635.4
-+ Oldpeak         1     2.911  82.858 -1623.4
-+ Age             1     2.006  83.763 -1615.3
-+ RestingBP       1     1.235  84.534 -1608.5
-+ FastingBS       1     0.571  85.198 -1602.6
-+ MaxHR           1     0.493  85.276 -1602.0
-+ Cholesterol     1     0.375  85.395 -1600.9
-+ RestingECG      2     0.463  85.306 -1599.7
-&lt;none&gt;                         85.769 -1599.7
-- Sex             1     5.277  91.046 -1557.1
-- ChestPainType   3    12.797  98.566 -1501.9
-- ST_Slope        2    39.496 125.265 -1321.1
-
-Step:  AIC=-1635.36
-HeartDisease ~ ST_Slope + ChestPainType + Sex + ExerciseAngina
-
-                 Df Sum of Sq     RSS     AIC
-+ Oldpeak         1    1.6113  79.929 -1648.2
-+ Age             1    1.4308  80.110 -1646.6
-+ RestingBP       1    0.7843  80.756 -1640.6
-+ FastingBS       1    0.4502  81.090 -1637.5
-+ Cholesterol     1    0.2869  81.254 -1636.0
-&lt;none&gt;                         81.541 -1635.4
-+ RestingECG      2    0.4070  81.134 -1635.1
-+ MaxHR           1    0.1260  81.415 -1634.5
-- ExerciseAngina  1    4.2287  85.769 -1599.7
-- Sex             1    4.2684  85.809 -1599.3
-- ChestPainType   3    7.1219  88.663 -1578.9
-- ST_Slope        2   25.4800 107.021 -1436.5
-
-Step:  AIC=-1648.25
-HeartDisease ~ ST_Slope + ChestPainType + Sex + ExerciseAngina + 
-    Oldpeak
-
-                 Df Sum of Sq    RSS     AIC
-+ Age             1    1.1414 78.788 -1657.0
-+ FastingBS       1    0.5825 79.347 -1651.7
-+ RestingBP       1    0.5635 79.366 -1651.5
-+ Cholesterol     1    0.2785 79.651 -1648.9
-&lt;none&gt;                        79.929 -1648.2
-+ MaxHR           1    0.1364 79.793 -1647.5
-+ RestingECG      2    0.3199 79.609 -1647.2
-- Oldpeak         1    1.6113 81.541 -1635.4
-- ExerciseAngina  1    2.9291 82.858 -1623.4
-- Sex             1    4.2784 84.208 -1611.3
-- ChestPainType   3    6.4756 86.405 -1596.1
-- ST_Slope        2   18.8530 98.782 -1494.3
-
-Step:  AIC=-1656.98
-HeartDisease ~ ST_Slope + ChestPainType + Sex + ExerciseAngina + 
-    Oldpeak + Age
-
-                 Df Sum of Sq    RSS     AIC
-+ FastingBS       1    0.3021 78.486 -1657.8
-+ RestingBP       1    0.2919 78.496 -1657.8
-+ Cholesterol     1    0.2432 78.545 -1657.3
-&lt;none&gt;                        78.788 -1657.0
-+ MaxHR           1    0.0026 78.785 -1655.0
-+ RestingECG      2    0.1303 78.658 -1654.2
-- Age             1    1.1414 79.929 -1648.2
-- Oldpeak         1    1.3220 80.110 -1646.6
-- ExerciseAngina  1    2.6084 81.396 -1634.7
-- Sex             1    4.4089 83.197 -1618.4
-- ChestPainType   3    6.2421 85.030 -1606.1
-- ST_Slope        2   18.1121 96.900 -1506.6
-
-Step:  AIC=-1657.85
-HeartDisease ~ ST_Slope + ChestPainType + Sex + ExerciseAngina + 
-    Oldpeak + Age + FastingBS
-
-                 Df Sum of Sq    RSS     AIC
-+ RestingBP       1    0.2286 78.257 -1658.0
-+ Cholesterol     1    0.2174 78.268 -1657.9
-&lt;none&gt;                        78.486 -1657.8
-- FastingBS       1    0.3021 78.788 -1657.0
-+ MaxHR           1    0.0039 78.482 -1655.9
-+ RestingECG      2    0.0951 78.391 -1654.8
-- Age             1    0.8610 79.347 -1651.7
-- Oldpeak         1    1.4323 79.918 -1646.4
-- ExerciseAngina  1    2.5343 81.020 -1636.1
-- Sex             1    4.2057 82.692 -1620.9
-- ChestPainType   3    6.3333 84.819 -1606.0
-- ST_Slope        2   17.6599 96.146 -1510.5
-
-Step:  AIC=-1658.03
-HeartDisease ~ ST_Slope + ChestPainType + Sex + ExerciseAngina + 
-    Oldpeak + Age + FastingBS + RestingBP
-
-                 Df Sum of Sq    RSS     AIC
-&lt;none&gt;                        78.257 -1658.0
-- RestingBP       1    0.2286 78.486 -1657.8
-+ Cholesterol     1    0.1859 78.071 -1657.8
-- FastingBS       1    0.2388 78.496 -1657.8
-+ MaxHR           1    0.0035 78.254 -1656.1
-+ RestingECG      2    0.0988 78.158 -1655.0
-- Age             1    0.6825 78.940 -1653.5
-- Oldpeak         1    1.3048 79.562 -1647.7
-- ExerciseAngina  1    2.4261 80.683 -1637.2
-- Sex             1    4.2210 82.478 -1620.8
-- ChestPainType   3    6.3840 84.641 -1605.5
-- ST_Slope        2   17.7805 96.038 -1509.3</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = HeartDisease ~ ST_Slope + ChestPainType + Sex + 
-    ExerciseAngina + Oldpeak + Age + FastingBS + RestingBP, data = data_new)
-
-Coefficients:
-     (Intercept)      ST_SlopeFlat        ST_SlopeUp  ChestPainTypeATA  
-        0.037751          0.165015         -0.233813         -0.216511  
-ChestPainTypeNAP   ChestPainTypeTA              SexM   ExerciseAnginaY  
-       -0.220484         -0.210541          0.180499          0.151269  
-         Oldpeak               Age         FastingBS         RestingBP  
-        0.052598          0.003540          0.050405          0.001071  </code></pre>
-</div>
-</div>
-<p>Since our outcome is binary, we decided to fit a logistic model using the 8 predictors selected by the all subset selection approach and confirmed by the stepwise selection approach.</p>
+<p>As shown in the table above, the model with the lowest Cp score is model 11. Model 11 includes 8 predictors: Age, Sex, ChestPainType, RestingBP, FastingBS, ExerciseAngina, Oldpeak, and ST_slope.</p>
+<p>To validate our predictor selection approach, we performed stepwise selection in both directions on the dataset, yielding the same 8 predictors as the all subset selection method. These 8 predictors were deemed meaningful and subsequently used to fit a logistic model, which we will call Model 1, given the binary outcome of interest.</p>
 </section>
 <section id="model-attempts" class="level2">
 <h2 class="anchored" data-anchor-id="model-attempts">Model attempts</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(HeartDisease <span class="sc">~</span> Age <span class="sc">+</span> Sex <span class="sc">+</span> RestingBP <span class="sc">+</span> FastingBS <span class="sc">+</span> ChestPainType <span class="sc">+</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>            ExerciseAngina <span class="sc">+</span> Oldpeak <span class="sc">+</span> ST_Slope, </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> data_new,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12 × 5
-   term             estimate std.error statistic       p.value
-   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
- 1 (Intercept)       -4.95     1.26       -3.93  0.0000851    
- 2 Age                0.0320   0.0135      2.37  0.0177       
- 3 SexM               1.79     0.307       5.84  0.00000000529
- 4 RestingBP          0.0125   0.00722     1.73  0.0837       
- 5 FastingBS          0.323    0.326       0.989 0.323        
- 6 ChestPainTypeATA  -1.70     0.349      -4.87  0.00000113   
- 7 ChestPainTypeNAP  -1.60     0.296      -5.39  0.0000000715 
- 8 ChestPainTypeTA   -1.64     0.472      -3.47  0.000517     
- 9 ExerciseAnginaY    0.888    0.262       3.39  0.000712     
-10 Oldpeak            0.412    0.140       2.95  0.00319      
-11 ST_SlopeFlat       1.30     0.517       2.51  0.0120       
-12 ST_SlopeUp        -1.22     0.559      -2.19  0.0286       </code></pre>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-4.9502150</td>
+<td style="text-align: right;">1.2597480</td>
+<td style="text-align: right;">-3.929528</td>
+<td style="text-align: right;">0.0000851</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">0.0320180</td>
+<td style="text-align: right;">0.0135006</td>
+<td style="text-align: right;">2.371599</td>
+<td style="text-align: right;">0.0177113</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SexM</td>
+<td style="text-align: right;">1.7941249</td>
+<td style="text-align: right;">0.3073380</td>
+<td style="text-align: right;">5.837627</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RestingBP</td>
+<td style="text-align: right;">0.0124850</td>
+<td style="text-align: right;">0.0072187</td>
+<td style="text-align: right;">1.729548</td>
+<td style="text-align: right;">0.0837111</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FastingBS</td>
+<td style="text-align: right;">0.3225325</td>
+<td style="text-align: right;">0.3260654</td>
+<td style="text-align: right;">0.989165</td>
+<td style="text-align: right;">0.3225824</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ChestPainTypeATA</td>
+<td style="text-align: right;">-1.7002181</td>
+<td style="text-align: right;">0.3492558</td>
+<td style="text-align: right;">-4.868117</td>
+<td style="text-align: right;">0.0000011</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ChestPainTypeNAP</td>
+<td style="text-align: right;">-1.5968666</td>
+<td style="text-align: right;">0.2964066</td>
+<td style="text-align: right;">-5.387420</td>
+<td style="text-align: right;">0.0000001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ChestPainTypeTA</td>
+<td style="text-align: right;">-1.6370724</td>
+<td style="text-align: right;">0.4715080</td>
+<td style="text-align: right;">-3.471993</td>
+<td style="text-align: right;">0.0005166</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ExerciseAnginaY</td>
+<td style="text-align: right;">0.8882308</td>
+<td style="text-align: right;">0.2624020</td>
+<td style="text-align: right;">3.385001</td>
+<td style="text-align: right;">0.0007118</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Oldpeak</td>
+<td style="text-align: right;">0.4124948</td>
+<td style="text-align: right;">0.1398666</td>
+<td style="text-align: right;">2.949201</td>
+<td style="text-align: right;">0.0031860</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ST_SlopeFlat</td>
+<td style="text-align: right;">1.2980847</td>
+<td style="text-align: right;">0.5165720</td>
+<td style="text-align: right;">2.512883</td>
+<td style="text-align: right;">0.0119749</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ST_SlopeUp</td>
+<td style="text-align: right;">-1.2244713</td>
+<td style="text-align: right;">0.5592877</td>
+<td style="text-align: right;">-2.189341</td>
+<td style="text-align: right;">0.0285721</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>m1_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using a <span class="math inline">\(\alpha = 0.05\)</span> significance level, the p-values of RestingBP and FastingBS are respectively 0.084 and 0.32, which is larger than 0.05, suggesting the these 2 predictors might not be statistically significant. Hence, we considered a second logistic model with the 6 predictors left.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(HeartDisease <span class="sc">~</span> Age <span class="sc">+</span> Sex <span class="sc">+</span> ChestPainType <span class="sc">+</span> ExerciseAngina <span class="sc">+</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>           <span class="sc">+</span> Oldpeak <span class="sc">+</span> ST_Slope, </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> data_new,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 5
-   term             estimate std.error statistic       p.value
-   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
- 1 (Intercept)       -3.60      0.947      -3.80 0.000143     
- 2 Age                0.0389    0.0132      2.96 0.00310      
- 3 SexM               1.79      0.300       5.98 0.00000000222
- 4 ChestPainTypeATA  -1.66      0.344      -4.81 0.00000154   
- 5 ChestPainTypeNAP  -1.58      0.296      -5.34 0.0000000938 
- 6 ChestPainTypeTA   -1.51      0.463      -3.26 0.00111      
- 7 ExerciseAnginaY    0.935     0.261       3.59 0.000331     
- 8 Oldpeak            0.421     0.138       3.06 0.00223      
- 9 ST_SlopeFlat       1.24      0.510       2.43 0.0152       
-10 ST_SlopeUp        -1.27      0.552      -2.31 0.0208       </code></pre>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-3.6008458</td>
+<td style="text-align: right;">0.9467300</td>
+<td style="text-align: right;">-3.803456</td>
+<td style="text-align: right;">0.0001427</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">0.0389149</td>
+<td style="text-align: right;">0.0131564</td>
+<td style="text-align: right;">2.957871</td>
+<td style="text-align: right;">0.0030977</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SexM</td>
+<td style="text-align: right;">1.7915558</td>
+<td style="text-align: right;">0.2995667</td>
+<td style="text-align: right;">5.980491</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ChestPainTypeATA</td>
+<td style="text-align: right;">-1.6554956</td>
+<td style="text-align: right;">0.3444960</td>
+<td style="text-align: right;">-4.805558</td>
+<td style="text-align: right;">0.0000015</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ChestPainTypeNAP</td>
+<td style="text-align: right;">-1.5793224</td>
+<td style="text-align: right;">0.2958402</td>
+<td style="text-align: right;">-5.338430</td>
+<td style="text-align: right;">0.0000001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ChestPainTypeTA</td>
+<td style="text-align: right;">-1.5108657</td>
+<td style="text-align: right;">0.4633904</td>
+<td style="text-align: right;">-3.260460</td>
+<td style="text-align: right;">0.0011123</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ExerciseAnginaY</td>
+<td style="text-align: right;">0.9354101</td>
+<td style="text-align: right;">0.2605893</td>
+<td style="text-align: right;">3.589595</td>
+<td style="text-align: right;">0.0003312</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Oldpeak</td>
+<td style="text-align: right;">0.4214819</td>
+<td style="text-align: right;">0.1378234</td>
+<td style="text-align: right;">3.058129</td>
+<td style="text-align: right;">0.0022272</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ST_SlopeFlat</td>
+<td style="text-align: right;">1.2392333</td>
+<td style="text-align: right;">0.5104693</td>
+<td style="text-align: right;">2.427635</td>
+<td style="text-align: right;">0.0151976</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ST_SlopeUp</td>
+<td style="text-align: right;">-1.2746532</td>
+<td style="text-align: right;">0.5515375</td>
+<td style="text-align: right;">-2.311091</td>
+<td style="text-align: right;">0.0208278</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>m2_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>#exercise angina Exercise-induced angina refers to chest pain or discomfort that occurs during physical activity, such as exercise, and is usually a result of reduced blood flow to the heart. It can be a symptom of underlying heart disease, such as coronary artery disease, which can be caused by the buildup of plaque in the arteries that supply the heart with blood. Therefore, the presence or absence of exercise-induced angina can be a useful diagnostic tool in identifying individuals at risk for or already suffering from heart disease.</p>
 <p>#old peak The variable “Oldpeak” refers to the ST segment depression induced by exercise relative to rest. It is a numeric variable that measures the difference in the ST segment of an electrocardiogram (ECG) before and after exercise. A positive value of Oldpeak indicates that the ST segment is depressed during exercise compared to at rest, which can be a sign of ischemia (insufficient blood flow) to the heart. The greater the magnitude of the depression, the more severe the ischemia. Therefore, Oldpeak is a useful predictor of the likelihood of heart disease and can be used in models to predict the risk of heart failure.</p>
 <p>#st slope The variable “ST_Slope” makes sense to include, as the ST segment exercise test, is one of the most widely used tests to screen for CVDs. Either depression (horizontal or downsloping) in the slope often suggests presence of CAD and warrants further management (Lim, 2016).</p>
 <p>Finally, we fitted a logistic model with all predictors included in order to provide a baseline of comparing the models.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(HeartDisease <span class="sc">~</span> ., </span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> data_new,</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 16 × 5
-   term              estimate std.error statistic       p.value
-   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
- 1 (Intercept)      -5.44       1.76       -3.08  0.00204      
- 2 Age               0.0314     0.0148      2.12  0.0341       
- 3 SexM              1.87       0.313       5.95  0.00000000264
- 4 ChestPainTypeATA -1.67       0.354      -4.72  0.00000235   
- 5 ChestPainTypeNAP -1.57       0.303      -5.19  0.000000208  
- 6 ChestPainTypeTA  -1.63       0.484      -3.38  0.000736     
- 7 RestingBP         0.0118     0.00730     1.61  0.107        
- 8 Cholesterol       0.00250    0.00198     1.26  0.207        
- 9 FastingBS         0.292      0.331       0.883 0.377        
-10 RestingECGNormal -0.230      0.284      -0.809 0.419        
-11 RestingECGST     -0.175      0.394      -0.443 0.658        
-12 MaxHR             0.000581   0.00578     0.100 0.920        
-13 ExerciseAnginaY   0.907      0.267       3.40  0.000682     
-14 Oldpeak           0.411      0.141       2.92  0.00349      
-15 ST_SlopeFlat      1.30       0.520       2.51  0.0121       
-16 ST_SlopeUp       -1.21       0.566      -2.14  0.0324       </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>m3_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>m1_aug <span class="ot">&lt;-</span> m1_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prob =</span> <span class="fu">exp</span>(.fitted)<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(.fitted)),</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">pred_leg =</span> <span class="fu">ifelse</span>(prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Heart Disease"</span>, <span class="st">"No Heart Disease"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(.fitted, prob, pred_leg, HeartDisease)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>m1_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="fu">as.factor</span>(HeartDisease),</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    prob, </span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"second"</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 3
-  .metric .estimator .estimate
-  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 roc_auc binary         0.934</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>m2_aug <span class="ot">&lt;-</span> m2_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prob =</span> <span class="fu">exp</span>(.fitted)<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(.fitted)),</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">pred_leg =</span> <span class="fu">ifelse</span>(prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Heart Disease"</span>, <span class="st">"No Heart Disease"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(.fitted, prob, pred_leg, HeartDisease)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>m2_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="fu">as.factor</span>(HeartDisease),</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    prob, </span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"second"</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 3
-  .metric .estimator .estimate
-  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 roc_auc binary         0.933</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>m3_aug <span class="ot">&lt;-</span> m3_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prob =</span> <span class="fu">exp</span>(.fitted)<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(.fitted)),</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">pred_leg =</span> <span class="fu">ifelse</span>(prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Heart Disease"</span>, <span class="st">"No Heart Disease"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(.fitted, prob, pred_leg, HeartDisease)</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>m3_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="fu">as.factor</span>(HeartDisease),</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    prob, </span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"second"</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 3
-  .metric .estimator .estimate
-  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 roc_auc binary         0.935</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(m1_aug <span class="sc">$</span>pred_leg, m1_aug <span class="sc">$</span>HeartDisease)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                  
-                     0   1
-  Heart Disease     50 312
-  No Heart Disease 340  44</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(m2_aug <span class="sc">$</span>pred_leg, m2_aug <span class="sc">$</span>HeartDisease)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                  
-                     0   1
-  Heart Disease     52 312
-  No Heart Disease 338  44</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(m3_aug <span class="sc">$</span>pred_leg, m3_aug <span class="sc">$</span>HeartDisease)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                  
-                     0   1
-  Heart Disease     52 311
-  No Heart Disease 338  45</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot ROC curves for each model</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> m1_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="fu">as.factor</span>(HeartDisease),</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    prob, </span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"second"</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">aes =</span> <span class="fu">c</span>(<span class="at">color =</span> <span class="st">"Model 1"</span>)) <span class="sc">+</span></span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> m2_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="fu">as.factor</span>(HeartDisease),</span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>    prob, </span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"second"</span></span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">aes =</span> <span class="fu">c</span>(<span class="at">color =</span> <span class="st">"Model 2"</span>))</span>
-<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> m3_aug <span class="sc">%&gt;%</span> </span>
-<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="fu">as.factor</span>(HeartDisease),</span>
-<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>    prob, </span>
-<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"second"</span></span>
-<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb52-27"><a href="#cb52-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">aes =</span> <span class="fu">c</span>(<span class="at">color =</span> <span class="st">"Model 3"</span>))</span>
-<span id="cb52-28"><a href="#cb52-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-29"><a href="#cb52-29" aria-hidden="true" tabindex="-1"></a><span class="co"># combine plots and customize colors and legend</span></span>
-<span id="cb52-30"><a href="#cb52-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb52-31"><a href="#cb52-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> p1<span class="sc">$</span>data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">color =</span> <span class="st">"Model 1"</span>)) <span class="sc">+</span></span>
-<span id="cb52-32"><a href="#cb52-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> p2<span class="sc">$</span>data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">color =</span> <span class="st">"Model 2"</span>)) <span class="sc">+</span></span>
-<span id="cb52-33"><a href="#cb52-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> p3<span class="sc">$</span>data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">color =</span> <span class="st">"Model 3"</span>)) <span class="sc">+</span></span>
-<span id="cb52-34"><a href="#cb52-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Models"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Model 1"</span> <span class="ot">=</span> <span class="st">"#E987BC"</span>, <span class="st">"Model 2"</span> <span class="ot">=</span> <span class="st">"#FAD761"</span>, <span class="st">"Model 3"</span> <span class="ot">=</span> <span class="st">"#82A8E7"</span>)) <span class="sc">+</span></span>
-<span id="cb52-35"><a href="#cb52-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"False Positive Rate (1 - Specificity)"</span>) <span class="sc">+</span></span>
-<span id="cb52-36"><a href="#cb52-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"True Positive Rate (Sensitivity)"</span>) <span class="sc">+</span></span>
-<span id="cb52-37"><a href="#cb52-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"ROC Curves for Heart Disease Prediction Models"</span>) <span class="sc">+</span></span>
-<span id="cb52-38"><a href="#cb52-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="final-project_files/figure-html/attempting%20to%20color%20and%20overlap%20the%203%20roc%20curves-1.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-5.4373046</td>
+<td style="text-align: right;">1.7625169</td>
+<td style="text-align: right;">-3.0849659</td>
+<td style="text-align: right;">0.0020358</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">0.0313784</td>
+<td style="text-align: right;">0.0148105</td>
+<td style="text-align: right;">2.1186575</td>
+<td style="text-align: right;">0.0341194</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SexM</td>
+<td style="text-align: right;">1.8655490</td>
+<td style="text-align: right;">0.3134065</td>
+<td style="text-align: right;">5.9524904</td>
+<td style="text-align: right;">0.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ChestPainTypeATA</td>
+<td style="text-align: right;">-1.6731804</td>
+<td style="text-align: right;">0.3544226</td>
+<td style="text-align: right;">-4.7208630</td>
+<td style="text-align: right;">0.0000023</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ChestPainTypeNAP</td>
+<td style="text-align: right;">-1.5730121</td>
+<td style="text-align: right;">0.3029404</td>
+<td style="text-align: right;">-5.1924797</td>
+<td style="text-align: right;">0.0000002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ChestPainTypeTA</td>
+<td style="text-align: right;">-1.6332529</td>
+<td style="text-align: right;">0.4838117</td>
+<td style="text-align: right;">-3.3758029</td>
+<td style="text-align: right;">0.0007360</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RestingBP</td>
+<td style="text-align: right;">0.0117792</td>
+<td style="text-align: right;">0.0072988</td>
+<td style="text-align: right;">1.6138654</td>
+<td style="text-align: right;">0.1065566</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cholesterol</td>
+<td style="text-align: right;">0.0024955</td>
+<td style="text-align: right;">0.0019773</td>
+<td style="text-align: right;">1.2620586</td>
+<td style="text-align: right;">0.2069277</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FastingBS</td>
+<td style="text-align: right;">0.2923999</td>
+<td style="text-align: right;">0.3311265</td>
+<td style="text-align: right;">0.8830458</td>
+<td style="text-align: right;">0.3772115</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RestingECGNormal</td>
+<td style="text-align: right;">-0.2297888</td>
+<td style="text-align: right;">0.2842091</td>
+<td style="text-align: right;">-0.8085204</td>
+<td style="text-align: right;">0.4187911</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RestingECGST</td>
+<td style="text-align: right;">-0.1746017</td>
+<td style="text-align: right;">0.3941671</td>
+<td style="text-align: right;">-0.4429637</td>
+<td style="text-align: right;">0.6577920</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MaxHR</td>
+<td style="text-align: right;">0.0005807</td>
+<td style="text-align: right;">0.0057810</td>
+<td style="text-align: right;">0.1004456</td>
+<td style="text-align: right;">0.9199906</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ExerciseAnginaY</td>
+<td style="text-align: right;">0.9073515</td>
+<td style="text-align: right;">0.2671360</td>
+<td style="text-align: right;">3.3965895</td>
+<td style="text-align: right;">0.0006823</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Oldpeak</td>
+<td style="text-align: right;">0.4108355</td>
+<td style="text-align: right;">0.1406671</td>
+<td style="text-align: right;">2.9206235</td>
+<td style="text-align: right;">0.0034933</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ST_SlopeFlat</td>
+<td style="text-align: right;">1.3038217</td>
+<td style="text-align: right;">0.5197574</td>
+<td style="text-align: right;">2.5085195</td>
+<td style="text-align: right;">0.0121238</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ST_SlopeUp</td>
+<td style="text-align: right;">-1.2100372</td>
+<td style="text-align: right;">0.5655279</td>
+<td style="text-align: right;">-2.1396597</td>
+<td style="text-align: right;">0.0323823</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2, m1, <span class="at">test=</span><span class="st">"Chisq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Analysis of Deviance Table
+<div class="cell-output-display">
 
-Model 1: HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + +Oldpeak + 
-    ST_Slope
-Model 2: HeartDisease ~ Age + Sex + RestingBP + FastingBS + ChestPainType + 
-    ExerciseAngina + Oldpeak + ST_Slope
-  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
-1       736     490.74                       
-2       734     486.13  2   4.6102  0.09975 .
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">roc_auc</td>
+<td style="text-align: left;">binary</td>
+<td style="text-align: right;">0.9344641</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">roc_auc</td>
+<td style="text-align: left;">binary</td>
+<td style="text-align: right;">0.9329264</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.metric</th>
+<th style="text-align: left;">.estimator</th>
+<th style="text-align: right;">.estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">roc_auc</td>
+<td style="text-align: left;">binary</td>
+<td style="text-align: right;">0.9349323</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+
+</table>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2, m3, <span class="at">test=</span><span class="st">"Chisq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Analysis of Deviance Table
-
-Model 1: HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + +Oldpeak + 
-    ST_Slope
-Model 2: HeartDisease ~ Age + Sex + ChestPainType + RestingBP + Cholesterol + 
-    FastingBS + RestingECG + MaxHR + ExerciseAngina + Oldpeak + 
-    ST_Slope
-  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
-1       736     490.74                     
-2       730     483.58  6   7.1638    0.306</code></pre>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/attempting%20to%20color%20and%20overlap%20the%203%20roc%20curves-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Resid. Df</th>
+<th style="text-align: right;">Resid. Dev</th>
+<th style="text-align: right;">Df</th>
+<th style="text-align: right;">Deviance</th>
+<th style="text-align: right;">Pr(&gt;Chi)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">736</td>
+<td style="text-align: right;">490.7443</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">734</td>
+<td style="text-align: right;">486.1341</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4.610217</td>
+<td style="text-align: right;">0.099748</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Resid. Df</th>
+<th style="text-align: right;">Resid. Dev</th>
+<th style="text-align: right;">Df</th>
+<th style="text-align: right;">Deviance</th>
+<th style="text-align: right;">Pr(&gt;Chi)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">736</td>
+<td style="text-align: right;">490.7443</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">730</td>
+<td style="text-align: right;">483.5804</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7.163848</td>
+<td style="text-align: right;">0.3059602</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>The p-values are 0.10 and 0.306 (&gt;0.05 significance level) when comparing model 2 to model 1, and model 2 to model 3. This indicate that there is not enough evidence to reject the null hypothesis that all of the slopes corresponding to the eliminated terms (Cholesterol, RestingECG, MaxHR, RestingBP, and FastingBS) are zero. Therefore, there is not enough evidence to conclude that the model with all predictors is significantly better than the model we created through all subset selection. We would prefer to use the simpler Model 2 (that we came up with through all subset selection and p-value emliniation) over the more complex Model 3 (which includes all of the predictors), as it has fewer variables and possibly has clearer interpretations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m2, <span class="at">test=</span><span class="st">"Chisq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Analysis of Deviance Table
-
-Model 1: HeartDisease ~ Age + Sex + RestingBP + FastingBS + ChestPainType + 
-    ExerciseAngina + Oldpeak + ST_Slope
-Model 2: HeartDisease ~ Age + Sex + ChestPainType + ExerciseAngina + +Oldpeak + 
-    ST_Slope
-  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
-1       734     486.13                       
-2       736     490.74 -2  -4.6102  0.09975 .
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Resid. Df</th>
+<th style="text-align: right;">Resid. Dev</th>
+<th style="text-align: right;">Df</th>
+<th style="text-align: right;">Deviance</th>
+<th style="text-align: right;">Pr(&gt;Chi)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">734</td>
+<td style="text-align: right;">486.1341</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">736</td>
+<td style="text-align: right;">490.7443</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">-4.610217</td>
+<td style="text-align: right;">0.099748</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>explain this!! mention that the cut off for the predictions is 0.5!</p>
@@ -841,46 +621,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
 <p>The two assumptions that are important in logistic regression are independence and linearity.</p>
 <p>Independence: There might be violations of independence. The dataset is a combination of five datasets from clinics at Cleveland, Hungarian, Switzerland, Long Beach VA, and the Stalog (Heart) Dataset. If, for example, the different institutions had different in measuring Max heart rate, or the Oldpeak that would lead to systematic differences, then knowing one observation might yield information on another observation. However, since the exact data collecting mechanism is unknown, and we are not knowledgable information to make deductions and act upon violations of independence, we assume that independence is not violated.</p>
-<p>Linearity: The 5 continuous variables that are involved in all models are Age, RestingBP, Cholesterol, MaxHR, and Oldpeak. As shown in all five plots below, the dots are randomly scattered across the empirical logits plots. Therefore, the linearity assumption is satisfied for the model.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emplogitplot1</span>(HeartDisease <span class="sc">~</span> Age,</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> data_new,</span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">ngroups =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/assumptions-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emplogitplot1</span>(HeartDisease <span class="sc">~</span> RestingBP,</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> data_new,</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">ngroups =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/assumptions-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emplogitplot1</span>(HeartDisease <span class="sc">~</span> Cholesterol,</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> data_new,</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">ngroups =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/assumptions-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emplogitplot1</span>(HeartDisease <span class="sc">~</span> MaxHR,</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> data_new,</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">ngroups =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/assumptions-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emplogitplot1</span>(HeartDisease <span class="sc">~</span> Oldpeak,</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> data_new,</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">ngroups =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="final-project_files/figure-html/assumptions-5.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<p>Linearity: The 5 continuous variables that are involved in all models are Age, RestingBP, Cholesterol, MaxHR, and Oldpeak. As shown in all five plots below, the dots are randomly scattered across the empirical logits plots. Therefore, the linearity assumption is satisfied for the model. plots are figure 6</p>
 <p>#cholesterol Research suggests that low-density lipoprotein cholesterol (LDL-C, the “bad” cholesterol) is not the best predictor of risk for a major coronary event in people who are generally healthy otherwise.</p>
 <p>#resting ecg The variable “RestingECG” may not be the best predictor of heart disease because it is only measuring the resting electrocardiogram results. Many people with heart disease may have a normal resting electrocardiogram, while others without heart disease may show abnormalities in their resting electrocardiogram. In contrast, other variables in the dataset, such as “ExerciseAngina” and “Oldpeak”, are more directly related to the physiological response to exercise, which can be a stronger predictor of heart disease. Additionally, “RestingECG” only provides information about the electrical activity of the heart at rest, while “ExerciseAngina” provides information about the heart’s response to physical stress, which can be a more sensitive indicator of heart disease.</p>
 <p>#max hr Max heart rate is not the best predictor of heart disease because it is highly confounded by age. As we age, our maximum heart rate decreases, so older individuals will have lower maximum heart rates even if they are healthy. Furthermore, medications for CVDs include beta blockers, which naturally slows down a person’s heart rate.</p>
 <section id="results" class="level3">
 <h3 class="anchored" data-anchor-id="results">Results</h3>
-<p>#Equation <span class="math display">\[log(odds)= -3.60 + 0.039 (Age) + 1.792 (Sex\:Male) - 1.656 (Atypical\:Anginal\:Chest\:Pain) - 1.579 (NonAnginal\:Chest\:Pain) -1.511 (Typical\:Anginal\:Chest\:Pain) + 0.935(Exercise\:Angina) + 0.421(OldPeak) + 1.239(St_SlopeFlat) -1.275(ST_SlopeUp)\]</span> After evaluating and comparing the model performances using the ROC curve, the AUC metric, and an F-test (all three models are nested), we see that all three models achieved very similar performance in terms of AUC score (0.934 for model 1, 0.933 for model 2, and 0.935 for model 3). We selected model 2 as our final model, although it seems to have the lowest AUC score among all three models, because our F-tests show that model 2 is not significantly different from model 1 and model 3. This suggests that there is not sufficient evidence indicating that it is helpful to additionally include the other five predictors Cholesterol, RestingECG, MaxHR, RestingBP, and FastingBS in the model.</p>
-<p>The intercept for our model represents a newborn female with no chest pain, no exercise-induced angina, no ST depression (0 degrees) on their ECG upon exercise that remains flat throughout exercise. The intercept value corresponds to log-odds of having a CVD vs.&nbsp;not having a CVD being 0.027 (<span class="math display">\[e^-3.6\]</span>) in this population. Consistent with existing scientific literature, we see in our chosen model that as people get older, their log-odds of developing a CVD increases; specifically, their log-odds is expected to increase by <span class="math display">\[e^0.039=1.04\]</span> with every passing year. We found that sex is positively correlated with the log-odds of developing a CVD, in that a male’s likelihood of having a CVD is expected to be <span class="math display">\[e^1.792 = 6.00\]</span> times that of a female, holding all else constant. As mentioned before, this is consistent with existing scientific literature. We also found that if a patient has exercise angina, their likelihood of having a CVD is <span class="math display">\[e^0.935=2.55\]</span> times higher than that of a patient who doesn’t have exercise angina, when holding all other variables constant. This makes sense because exercise angina has to do with discomfort when heart muscle receives insufficient blood and oxygen during physical activity, which is mostly due to narrowing of arteries and can lead to CVDs and heart failure. With every degree increase in the depression of the ST segment slope on a patient’s ECG during exercise, their log-odds of developing a CVD is expected to increase by <span class="math display">\[e^0.421=1.52\]</span> times. In a similar train of logic, our model also shows that when compared to a decreasing ST slope during exercise, having an flat ST slope is expected to increase a patient’s log-odds of developing a CVD by <span class="math display">\[e^1.239=3.45\]</span> and having an upwards ST slope is expected to decrease their log-odds by <span class="math display">\[e^-1.275=0.28\]</span>.</p>
+<p>#Equation log(odds) = -3.60 + 0.039 (Age) + 1.792 (Sex Male) - 1.656 (Atypical Anginal Chest Pain) - 1.579 (NonAnginal Chest Pain) -1.511 (Typical Anginal Chest Pain) + 0.935(Exercise Angina) + 0.421(OldPeak) + 1.239(St_SlopeFlat) -1.275(ST_SlopeUp)</p>
+<p>After evaluating and comparing the model performances using the ROC curve, the AUC metric, and an F-test (all three models are nested), we see that all three models achieved very similar performance in terms of AUC score (0.934 for model 1, 0.933 for model 2, and 0.935 for model 3). We selected model 2 as our final model, although it seems to have the lowest AUC score among all three models, because our F-tests show that model 2 is not significantly different from model 1 and model 3. This suggests that there is not sufficient evidence indicating that it is helpful to additionally include the other five predictors Cholesterol, RestingECG, MaxHR, RestingBP, and FastingBS in the model.</p>
+<p>The intercept for our model represents a newborn female with no chest pain, no exercise-induced angina, no ST depression (0 degrees) on their ECG upon exercise that remains flat throughout exercise. The intercept value corresponds to log-odds of having a CVD vs.&nbsp;not having a CVD being 0.027 (<span class="math inline">\(e^{-3.6}\)</span>) in this population. Consistent with existing scientific literature, we see in our chosen model that as people get older, their log-odds of developing a CVD increases; specifically, their log-odds is expected to increase by <span class="math inline">\(e^{0.039=1.04}\)</span> with every passing year. We found that sex is positively correlated with the log-odds of developing a CVD, in that a male’s likelihood of having a CVD is expected to be <span class="math inline">\(e^{1.792} = 6.00\)</span> times that of a female, holding all else constant. As mentioned before, this is consistent with existing scientific literature. We also found that if a patient has exercise angina, their likelihood of having a CVD is <span class="math inline">\(e^{0.935}=2.55\)</span> times higher than that of a patient who doesn’t have exercise angina, when holding all other variables constant. This makes sense because exercise angina has to do with discomfort when heart muscle receives insufficient blood and oxygen during physical activity, which is mostly due to narrowing of arteries and can lead to CVDs and heart failure. With every degree increase in the depression of the ST segment slope on a patient’s ECG during exercise, their log-odds of developing a CVD is expected to increase by <span class="math inline">\(e^{0.421}=1.52\)</span> times. In a similar train of logic, our model also shows that when compared to a decreasing ST slope during exercise, having an flat ST slope is expected to increase a patient’s log-odds of developing a CVD by <span class="math inline">\(e^{1.239}=3.45\)</span> and having an upwards ST slope is expected to decrease their log-odds by <span class="math inline">\(e^{-1.275}=0.28\)</span>.</p>
 <p>An unexpected discovery from our model is that people who are asymptomatic for chest pain are predicted to have the highest logodds of developing CVD, while controlling for all other variables. This might be explained through two layers of analysis. First, this dataset is not collected randomly from any population, but rather from people who visit the clinics and are probably suspected to have heart diseases. Hence, there is some sort of self-selection to get these variables documented when a participant does not experience chest pain yet is suspected to have heart disease. Second, how long the patients have been diagnosed with CVD is unknown, therefore some patients might have actively engaged in treatment processes and no longer experience chest pain, while still under the diagnosis of CVD.</p>
 </section>
 </section>
@@ -896,48 +645,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Oldpeak and ST Slope: The shape of the ST segment during exercise can be indicative of different types of ischemia, and may therefore have a complex relationship with the severity of heart disease risk as measured by the degree of ST depression (Oldpeak).</p>
 <p>#talk about how the variables were already narrowed down, making it hard for us It is important to emphasize that the list of 11 variables under consideration in this study has been narrowed down by researchers from a list of 76, involving several previous research studies to confirm this cut. As a result, further reduction of these variables from a model including all 11 variables could be somewhat challenging.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co">#chose to keep or not based off of page limit</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 746  12</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">746</span>, <span class="at">size =</span> <span class="dv">746</span> <span class="sc">*</span> <span class="fl">0.8</span>, <span class="at">replace =</span> F)</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>train.data  <span class="ot">&lt;-</span> data_new <span class="sc">%&gt;%</span> </span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(indices)</span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>test.data <span class="ot">&lt;-</span> data_new <span class="sc">%&gt;%</span> </span>
-<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span>indices)</span>
-<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>m2_train <span class="ot">&lt;-</span> <span class="fu">glm</span>(HeartDisease <span class="sc">~</span> Age <span class="sc">+</span> Sex <span class="sc">+</span> ChestPainType <span class="sc">+</span> ExerciseAngina <span class="sc">+</span> </span>
-<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>           <span class="sc">+</span> Oldpeak <span class="sc">+</span> ST_Slope, </span>
-<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> train.data,</span>
-<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>m3_train <span class="ot">&lt;-</span> <span class="fu">glm</span>(HeartDisease <span class="sc">~</span> Age <span class="sc">+</span> Sex <span class="sc">+</span> ChestPainType <span class="sc">+</span> RestingBP <span class="sc">+</span> Cholesterol <span class="sc">+</span> FastingBS <span class="sc">+</span> RestingECG <span class="sc">+</span> MaxHR <span class="sc">+</span> ExerciseAngina <span class="sc">+</span> Oldpeak <span class="sc">+</span> </span>
-<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>    ST_Slope, </span>
-<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> train.data,</span>
-<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>m2_train_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m2_train, test.data)</span>
-<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>m3_train_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m3_train, test.data)</span>
-<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>auc_m2_train <span class="ot">&lt;-</span> <span class="fu">roc</span>(test.data<span class="sc">$</span>HeartDisease, m2_train_pred)<span class="sc">$</span>auc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Setting levels: control = 0, case = 1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Setting direction: controls &lt; cases</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(auc_m2_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Area under the curve: 0.9066</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>auc_m3_train <span class="ot">&lt;-</span> <span class="fu">roc</span>(test.data<span class="sc">$</span>HeartDisease, m3_train_pred)<span class="sc">$</span>auc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Setting levels: control = 0, case = 1
-Setting direction: controls &lt; cases</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(auc_m3_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Area under the curve: 0.9027</code></pre>
 </div>
 </div>
+<p>we also attempted a simple hold-out method, in which 80% of the data was used as a training set and 20%</p>
 <p>References: Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed May 1, 2023.</p>
 <p>Damen, J. A., Hooft, L., Schuit, E., Debray, T. P., Collins, G. S., Tzoulaki, I., Lassale, C. M., Siontis, G. C., Chiocchia, V., Roberts, C., Schlüssel, M. M., Gerry, S., Black, J. A., Heus, P., van der Schouw, Y. T., Peelen, L. M., &amp; Moons, K. G. (2016). Prediction models for cardiovascular disease risk in the general population: systematic review. BMJ (Clinical research ed.), 353, i2416. https://doi.org/10.1136/bmj.i2416</p>
 <p>Downs, J. R., Clearfield, M., Weis, S., Whitney, E., Shapiro, D. R., Beere, P. A., Langendorfer, A., Stein, E. A., Kruyer, W., &amp; Gotto, A. M., Jr (1998). Primary prevention of acute coronary events with lovastatin in men and women with average cholesterol levels: results of AFCAPS/TexCAPS. Air Force/Texas Coronary Atherosclerosis Prevention Study. JAMA, 279(20), 1615–1622. https://doi.org/10.1001/jama.279.20.1615</p>
@@ -945,6 +663,54 @@ Setting direction: controls &lt; cases</code></pre>
 <p>Lim, Y. C., Teo, S. G., &amp; Poh, K. K. (2016). ST-segment changes with exercise stress. Singapore medical journal, 57(7), 347–353. https://doi.org/10.11622/smedj.2016116</p>
 <p>Maas, A. H., &amp; Appelman, Y. E. (2010). Gender differences in coronary heart disease. Netherlands heart journal : monthly journal of the Netherlands Society of Cardiology and the Netherlands Heart Foundation, 18(12), 598–602. https://doi.org/10.1007/s12471-010-0841-y</p>
 <p>Velagaleti, R. S., &amp; Vasan, R. S. (2007). Heart failure in the twenty-first century: is it a coronary artery disease or hypertension problem?. Cardiology clinics, 25(4), 487–v. https://doi.org/10.1016/j.ccl.2007.08.010</p>
+<section id="appendix" class="level3">
+<h3 class="anchored" data-anchor-id="appendix">Appendix</h3>
+<p>#Figure 1: Missing Data</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/figure%201%20missing%20data-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>#Figure 2: Distribution of Patients With/Without CVDs</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/cvd-distribution%20figure%202-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>#Figure 3: Box Plot for Age</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/figure%203%20box%20plot%20for%20age-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>#Figure 4: Proportion Plot for Sex</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/proportion%20plot%20for%20sex%20figure%204-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>#Figure 5: Box Plot for Resting Blood Pressure</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/figure%205%20box%20plot%20for%20resting%20blood%20pressure-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>#Figure 6: Proportion Plot for Exercise Angina</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/figure%206%20proportion%20plot%20for%20exercise%20angina-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>#Figure 7: Linearity Assumption Diagnostic Plots for Continuous Variables</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/figure%207%20assumptions-1.png" class="img-fluid" width="576"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="final-project_files/figure-html/figure%207%20assumptions-2.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+</section>
 </section>
 
 </main>
