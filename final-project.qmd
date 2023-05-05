@@ -1,9 +1,21 @@
 ---
 title: "Final Project"
 authors: Claire Wang & Xeno Hu
+format: pdf
+output:
+  knitr: 
+    echo: FALSE
 editor_options: 
   chunk_output_type: inline
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE,
+                      fig.width = 6,
+                      fig.asp = .618)
+```
 ### Introduction
 Cardiovascular diseases (CVDs) are the leading cause of death in the United States, with one person dying of the disease every 34 seconds (Centers for Disease Control and Prevention, 2022). Previous research has highlighted male gender, old age, obesity, abnormal cholesterol and fasting blood glucose as important predictors for CVDs, among many others (Damen et al., 2016).
 
@@ -44,6 +56,9 @@ library(UpSetR)
 library(naniar)
 library(pROC)
 library(Stat2Data)
+library(knitr)
+library(patchwork)
+library(viridis)
 data = read_csv("heart2.csv")
 ```
 
@@ -137,7 +152,6 @@ We use a logistic regression model because we are trying to predict the log-odds
 m_all <- regsubsets(HeartDisease ~ .,
                   data = data_new,
                   nbest = 1, nvmax = 15)
-summary(m_all)
 summary(m_all)$cp
 ```
 
@@ -150,9 +164,10 @@ did not choose: cholesterol, resting ecg, max hr (need to maybe say why didn't i
 m_none <- lm(HeartDisease ~ 1, data = data_new)
 m_all <- lm(HeartDisease ~ ., 
             data = data)
-stepAIC(m_none, 
+final_model <- stepAIC(m_none, 
         scope = list(lower = m_none, upper = m_all),
-        data = data, direction = "both")
+        data = data, direction = "both", trace = FALSE, verbose = FALSE)
+summary(final_model)
 ```
 
 Since our outcome is binary, we decided to fit a logistic model using the 8 predictors selected by the all subset selection approach and confirmed by the stepwise selection approach. 
@@ -227,9 +242,6 @@ m3_aug %>%
     prob, 
     event_level = "second"
   )
-table(m1_aug $pred_leg, m1_aug $HeartDisease)
-table(m2_aug $pred_leg, m2_aug $HeartDisease)
-table(m3_aug $pred_leg, m3_aug $HeartDisease)
 ``` 
 
 
@@ -297,25 +309,32 @@ Independence: There might be violations of independence. The dataset is a combin
 Linearity: The 5 continuous variables that are involved in all models are Age, RestingBP, Cholesterol, MaxHR, and Oldpeak. As shown in all five plots below, the dots are randomly scattered across the empirical logits plots. Therefore, the linearity assumption is satisfied for the model.
 
 ```{r assumptions}
+
+library(arm)
+
+# Set up the graphics device to display two plots side by side
+par(mfrow=c(1,3))
+
+
 emplogitplot1(HeartDisease ~ Age,
               data = data_new,
-              ngroups = 10)
+              ngroups = 10, main = "Plot for Age")
 
 emplogitplot1(HeartDisease ~ RestingBP,
               data = data_new,
-              ngroups = 4)
+              ngroups = 4, main = "Plot for Resting BP")
 
 emplogitplot1(HeartDisease ~ Cholesterol,
               data = data_new,
-              ngroups = 10)
+              ngroups = 10, main = "Plot for Cholesterol")
 
 emplogitplot1(HeartDisease ~ MaxHR,
               data = data_new,
-              ngroups = 10)
+              ngroups = 10, main = "Plot for Max Heart Rate")
 
 emplogitplot1(HeartDisease ~ Oldpeak,
               data = data_new,
-              ngroups = 4)
+              ngroups = 4, main = "Plot for Old Peak")
 ```
 
 #cholesterol
@@ -334,8 +353,8 @@ Furthermore, medications for CVDs include beta blockers, which naturally slows d
 $$log(odds)= -3.60 + 0.039 (Age) + 1.792 (Sex\:Male) - 1.656 (Atypical\:Anginal\:Chest\:Pain) - 1.579 (NonAnginal\:Chest\:Pain) -1.511 (Typical\:Anginal\:Chest\:Pain) + 0.935(Exercise\:Angina) + 0.421(OldPeak) + 1.239(St_SlopeFlat) -1.275(ST_SlopeUp)$$
 After evaluating and comparing the model performances using the ROC curve, the AUC metric, and an F-test (all three models are nested), we see that all three models achieved very similar performance in terms of AUC score (0.934 for model 1, 0.933 for model 2, and 0.935 for model 3). We selected model 2 as our final model, although it seems to have the lowest AUC score among all three models, because our F-tests show that model 2 is not significantly different from model 1 and model 3. This suggests that there is not sufficient evidence indicating that it is helpful to additionally include the other five predictors Cholesterol, RestingECG, MaxHR, RestingBP, and FastingBS in the model.  
 
-The intercept for our model represents a newborn female with no chest pain, no exercise-induced angina, no ST depression (0 degrees) on their ECG upon exercise that remains flat throughout exercise. The intercept value corresponds to log-odds of having a CVD vs. not having a CVD being 0.027 ($$e^-3.6$$) in this population.
-Consistent with existing scientific literature, we see in our chosen model that as people get older, their log-odds of developing a CVD increases; specifically, their log-odds is expected to increase by $$e^0.039=1.04$$ with every passing year. We found that sex is positively correlated with the log-odds of developing a CVD, in that a male’s likelihood of having a CVD is expected to be $$e^1.792 = 6.00$$ times that of a female, holding all else constant. As mentioned before, this is consistent with existing scientific literature. We also found that if a patient has exercise angina, their likelihood of having a CVD is $$e^0.935=2.55$$ times higher than that of a patient who doesn’t have exercise angina, when holding all other variables constant. This makes sense because exercise angina has to do with discomfort when heart muscle receives insufficient blood and oxygen during physical activity, which is mostly due to narrowing of arteries and can lead to CVDs and heart failure. With every degree increase in the depression of the ST segment slope on a patient’s ECG during exercise, their log-odds of developing a CVD is expected to increase by $$e^0.421=1.52$$ times. In a similar train of logic, our model also shows that when compared to a decreasing ST slope during exercise, having an flat ST slope is expected to increase a patient’s log-odds of developing a CVD by $$e^1.239=3.45$$ and having an upwards ST slope is expected to decrease their log-odds by $$e^-1.275=0.28$$.  
+The intercept for our model represents a newborn female with no chest pain, no exercise-induced angina, no ST depression (0 degrees) on their ECG upon exercise that remains flat throughout exercise. The intercept value corresponds to log-odds of having a CVD vs. not having a CVD being 0.027 ($e^{-3.6}$) in this population.
+Consistent with existing scientific literature, we see in our chosen model that as people get older, their log-odds of developing a CVD increases; specifically, their log-odds is expected to increase by $e^{0.039=1.04}$ with every passing year. We found that sex is positively correlated with the log-odds of developing a CVD, in that a male’s likelihood of having a CVD is expected to be $e^{1.792} = 6.00$ times that of a female, holding all else constant. As mentioned before, this is consistent with existing scientific literature. We also found that if a patient has exercise angina, their likelihood of having a CVD is $e^{0.935}=2.55$ times higher than that of a patient who doesn’t have exercise angina, when holding all other variables constant. This makes sense because exercise angina has to do with discomfort when heart muscle receives insufficient blood and oxygen during physical activity, which is mostly due to narrowing of arteries and can lead to CVDs and heart failure. With every degree increase in the depression of the ST segment slope on a patient’s ECG during exercise, their log-odds of developing a CVD is expected to increase by $e^{0.421}=1.52$ times. In a similar train of logic, our model also shows that when compared to a decreasing ST slope during exercise, having an flat ST slope is expected to increase a patient’s log-odds of developing a CVD by $e^{1.239}=3.45$ and having an upwards ST slope is expected to decrease their log-odds by $e^{-1.275}=0.28$.  
 
 An unexpected discovery from our model is that people who are asymptomatic for chest pain are predicted to have the highest logodds of developing CVD, while controlling for all other variables. This might be explained through two layers of analysis. First, this dataset is not collected randomly from any population, but rather from people who visit the clinics and are probably suspected to have heart diseases. Hence, there is some sort of self-selection to get these variables documented when a participant does not experience chest pain yet is suspected to have heart disease. Second, how long the patients have been diagnosed with CVD is unknown, therefore some patients might have actively engaged in treatment processes and no longer experience chest pain, while still under the diagnosis of CVD.  
 
@@ -390,6 +409,7 @@ print(auc_m2_train)
 auc_m3_train <- roc(test.data$HeartDisease, m3_train_pred)$auc
 print(auc_m3_train)
 ```
+we also attempted a simple hold-out method, in which 80% of the data was used as a training set and 20%
 
 References:
 Centers for Disease Control and Prevention, National Center for Health Statistics. About Multiple Cause of Death, 1999–2020. CDC WONDER Online Database website. Atlanta, GA: Centers for Disease Control and Prevention; 2022. Accessed May 1, 2023.
